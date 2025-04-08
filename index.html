@@ -1,532 +1,945 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Advanced AI Prompt Builder</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.oaistatic.com/assets/favicon-dark-32x32-gt5kfzyp.webp"/>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://cdn.oaistatic.com/assets/favicon-dark-32x32-gt5kfzyp.webp"
+    />
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow: auto;
-        }
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .form-section {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-        .alert-container {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1050;
-            max-width: 90%;
-        }
-        .modal-dialog-wide {
-            max-width: 70%;
-        }
-        .form-container {
-            max-width: 800px;
-            margin: auto;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-        }
-        .text-danger {
-            color: #dc3545;
-        }
-        .form-group-card {
-            border: 1px solid rgba(0,0,0,.125);
-            border-radius: 0.25rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background-color: rgba(255,255,255,0.05);
-        }
-        .form-group-card h4 {
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
-        }
-        .tooltip-inner {
-            max-width: 300px;
-        }
-        .input-description {
-            font-size: 0.875rem;
-            color: #6c757d;
-            margin-bottom: 0.5rem;
-        }
-        #preview-pane {
-            max-height: 500px;
-            overflow-y: auto;
-            font-family: monospace;
-            white-space: pre-wrap;
-            padding: 1rem;
-            border-radius: 0.25rem;
-            background-color: rgba(0,0,0,0.2);
-            margin-top: 1rem;
-        }
-        .live-preview-toggle {
-            margin-bottom: 1rem;
-        }
-        .preview-section {
-            margin-top: 2rem;
-        }
-        .badge-info {
-            color: #0dcaf0;
-            background-color: rgba(13, 202, 240, 0.1);
-            border: 1px solid #0dcaf0;
-        }
-        .hover-highlight:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
+      html, body {
+          height: 100%;
+          margin: 0;
+          overflow: auto;
+      }
+      .main-container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+      }
+      .form-section {
+          flex: 1;
+          overflow-y: auto;
+          padding: 1rem;
+      }
+      .alert-container {
+          position: fixed;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1050;
+          max-width: 90%;
+      }
+      .modal-dialog-wide {
+          max-width: 70%;
+      }
+      .form-container {
+          max-width: 800px;
+          margin: auto;
+          margin-top: 1rem;
+          margin-bottom: 2rem;
+      }
+      .text-danger {
+          color: #dc3545;
+      }
+      .form-group-card {
+          border: 1px solid rgba(0,0,0,.125);
+          border-radius: 0.25rem;
+          padding: 1rem;
+          margin-bottom: 1.5rem;
+          background-color: rgba(255,255,255,0.05);
+      }
+      .form-group-card h4 {
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          padding-bottom: 0.5rem;
+      }
+      .tooltip-inner {
+          max-width: 300px;
+      }
+      .input-description {
+          font-size: 0.875rem;
+          color: #6c757d;
+          margin-bottom: 0.5rem;
+      }
+      #preview-pane {
+          max-height: 500px;
+          overflow-y: auto;
+          font-family: monospace;
+          white-space: pre-wrap;
+          padding: 1rem;
+          border-radius: 0.25rem;
+          background-color: rgba(0,0,0,0.2);
+          margin-top: 1rem;
+      }
+      .live-preview-toggle {
+          margin-bottom: 1rem;
+      }
+      .preview-section {
+          margin-top: 2rem;
+      }
+      .badge-info {
+          color: #0dcaf0;
+          background-color: rgba(13, 202, 240, 0.1);
+          border: 1px solid #0dcaf0;
+      }
+      .hover-highlight:hover {
+          background-color: rgba(255,255,255,0.1);
+      }
     </style>
-</head>
-<body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container-fluid">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container-fluid">
         <a class="navbar-brand" href="#">AB</a>
         <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-            <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="previewMenu">Preview</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#templateModal">Templates</a>
-                </li>
-            </ul>
-            <button class="btn btn-outline-secondary" id="themeToggle" onclick="toggleTheme()">Switch to Light Mode</button>
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="previewMenu">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#faqModal"
+                >FAQ</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#templateModal"
+                >Templates</a
+              >
+            </li>
+          </ul>
+          <button
+            class="btn btn-outline-secondary"
+            id="themeToggle"
+            onclick="toggleTheme()"
+          >
+            Switch to Light Mode
+          </button>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="container-fluid main-container">
-    <div class="row">
+    <div class="container-fluid main-container">
+      <div class="row">
         <div class="col-lg-8 col-md-12 form-container">
-            <h2 class="text-center mb-4">Advanced AI Prompt Builder</h2>
-            <p class="text-center mb-4">Design effective prompts that generate high-quality AI responses</p>
-            
-            <form id="prompt-form" class="mb-4">
-                <!-- Core Information Section -->
-                <div class="form-group-card">
-                    <h4><i class="bi bi-person-badge"></i> Core Information</h4>
-                    <p class="input-description">Define who the AI should act as and what you need it to do</p>
-                    
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Act as <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Specify the role or persona you want the AI to take. More specific roles often yield better results. Example: 'Senior Software Engineer specializing in Python' instead of just 'Developer'."></i>
-                        </label>
-                        <input type="text" id="role" class="form-control" placeholder="e.g., UX Researcher, Data Scientist, Marketing Strategist" required>
-                    </div>
+          <h2 class="text-center mb-4">Advanced AI Prompt Builder</h2>
+          <p class="text-center mb-4">
+            Design effective prompts that generate high-quality AI responses
+          </p>
 
-                    <div class="mb-3">
-                        <label for="expertise" class="form-label">Expertise <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="List specific domains, skills, or knowledge areas relevant to the task. Be specific about specialties and experience level."></i>
-                        </label>
-                        <textarea id="expertise" class="form-control" rows="2" placeholder="e.g., Python, machine learning algorithms, data visualization, predictive modeling" required></textarea>
-                    </div>
+          <form id="prompt-form" class="mb-4">
+            <!-- Core Information Section -->
+            <div class="form-group-card">
+              <h4><i class="bi bi-person-badge"></i> Core Information</h4>
+              <p class="input-description">
+                Define who the AI should act as and what you need it to do
+              </p>
 
-                    <div class="mb-3">
-                        <label for="task" class="form-label">Task Instructions <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Be specific about what you want the AI to do. Include details about deliverables, steps to follow, and any specific requirements."></i>
-                        </label>
-                        <textarea id="task" rows="4" class="form-control" placeholder="Clearly describe what you need the AI to do, including any specific steps, methodology, or outcomes you're looking for..." required></textarea>
-                    </div>
-                </div>
+              <div class="mb-3">
+                <label for="role" class="form-label"
+                  >Act as <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Specify the role or persona you want the AI to take. More specific roles often yield better results. Example: 'Senior Software Engineer specializing in Python' instead of just 'Developer'."
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  id="role"
+                  class="form-control"
+                  placeholder="e.g., UX Researcher, Data Scientist, Marketing Strategist"
+                  required
+                />
+              </div>
 
-                <!-- Context and Background Section -->
-                <div class="form-group-card">
-                    <h4><i class="bi bi-info-circle"></i> Context and Background</h4>
-                    <p class="input-description">Provide information that helps the AI understand the broader situation</p>
-                    
-                    <div class="mb-3">
-                        <label for="context" class="form-label">Background Context
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Provide any background information that would help the AI understand the context of your request. This might include project history, existing work, or other relevant details."></i>
-                        </label>
-                        <textarea id="context" rows="3" class="form-control" placeholder="Explain any background information that would be helpful for understanding the task context..."></textarea>
-                    </div>
+              <div class="mb-3">
+                <label for="expertise" class="form-label"
+                  >Expertise <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="List specific domains, skills, or knowledge areas relevant to the task. Be specific about specialties and experience level."
+                  ></i>
+                </label>
+                <textarea
+                  id="expertise"
+                  class="form-control"
+                  rows="2"
+                  placeholder="e.g., Python, machine learning algorithms, data visualization, predictive modeling"
+                  required
+                ></textarea>
+              </div>
 
-                    <div class="mb-3">
-                        <label for="audience" class="form-label">Target Audience <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Define who will read or use the AI's response. Include details about their knowledge level, familiarity with the subject, and what they care about."></i>
-                        </label>
-                        <input type="text" id="audience" class="form-control" placeholder="e.g., Junior developers, C-level executives, general public with no technical background" required>
-                    </div>
-                </div>
-
-                <!-- Style and Format Section -->
-                <div class="form-group-card">
-                    <h4><i class="bi bi-brush"></i> Style and Format</h4>
-                    <p class="input-description">Specify how the response should be written and structured</p>
-                    
-                    <div class="mb-3">
-                        <label for="tone" class="form-label">Tone <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Choose a tone that suits your needs and audience expectations. The tone affects word choice, sentence structure, and overall impression."></i>
-                        </label>
-                        <select id="tone" class="form-select" required>
-                            <option value="" disabled>Select tone</option>
-                            <option value="Formal">Formal</option>
-                            <option value="Informal">Informal</option>
-                            <option value="Casual">Casual</option>
-                            <option value="Conversational">Conversational</option>
-                            <option value="Persuasive">Persuasive</option>
-                            <option value="Professional" selected>Professional</option>
-                            <option value="Friendly">Friendly</option>
-                            <option value="Serious">Serious</option>
-                            <option value="Humorous">Humorous</option>
-                            <option value="Educational">Educational</option>
-                            <option value="Empathetic">Empathetic</option>
-                            <option value="Authoritative">Authoritative</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="outputFormat" class="form-label">Output Format <span class="text-danger">*</span>
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Select how the response should be structured. Different formats work better for different types of information."></i>
-                        </label>
-                        <select id="outputFormat" class="form-select" required>
-                            <option value="" disabled>Select format</option>
-                            <option value="Plain Text" selected>Plain Text</option>
-                            <option value="Step-by-step Guide">Step-by-step Guide</option>
-                            <option value="Structured Sections with Headings">Structured Sections with Headings</option>
-                            <option value="JSON">JSON</option>
-                            <option value="Table">Table</option>
-                            <option value="Bullet Points">Bullet Points</option>
-                            <option value="Numbered List">Numbered List</option>
-                            <option value="Q&A Format">Q&A Format</option>
-                            <option value="Markdown">Markdown</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="responseLength" class="form-label">Response Length
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Specify how detailed or concise you want the response to be. This helps the AI calibrate the level of detail."></i>
-                        </label>
-                        <select id="responseLength" class="form-select">
-                            <option value="" selected disabled>Select preferred length</option>
-                            <option value="Very Concise">Very Concise (1-2 paragraphs)</option>
-                            <option value="Concise">Concise (2-3 paragraphs)</option>
-                            <option value="Moderate" selected>Moderate (4-6 paragraphs)</option>
-                            <option value="Detailed">Detailed (7-10 paragraphs)</option>
-                            <option value="Comprehensive">Comprehensive (10+ paragraphs)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Advanced Options Section -->
-                <div class="form-group-card">
-                    <h4><i class="bi bi-gear"></i> Advanced Options</h4>
-                    <p class="input-description">Fine-tune the AI's approach with additional guidelines</p>
-                    
-                    <div class="mb-3">
-                        <label for="examples" class="form-label">Examples
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Provide examples that demonstrate the type of response you're looking for. Examples are one of the most effective ways to guide AI behavior."></i>
-                        </label>
-                        <textarea id="examples" rows="3" class="form-control" placeholder="Provide examples of the type of response you're looking for..."></textarea>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="constraints" class="form-label">Constraints and Boundaries
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Specify what the AI should avoid or not include in its response. This helps prevent unwanted content or approaches."></i>
-                        </label>
-                        <textarea id="constraints" rows="2" class="form-control" placeholder="Specify anything the AI should avoid or exclude..."></textarea>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="reasoning" class="form-label">Reasoning Requirements
-                            <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip" 
-                            title="Indicate if you want the AI to show its work or explain its thinking process in the response."></i>
-                        </label>
-                        <select id="reasoning" class="form-select">
-                            <option value="" selected>No specific requirements</option>
-                            <option value="Show detailed reasoning">Show detailed reasoning</option>
-                            <option value="Explain assumptions">Explain assumptions</option>
-                            <option value="Cite sources where possible">Cite sources where possible</option>
-                            <option value="Include pros and cons">Include pros and cons</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
-                    <div>
-                        <button type="button" class="btn btn-info me-2" onclick="previewPrompt()">Preview</button>
-                        <button type="button" class="btn btn-primary" onclick="handleGeneratePrompt()">Generate & Copy Prompt</button>
-                    </div>
-                </div>
-            </form>
-            
-            <!-- Live Preview Section (initially hidden) -->
-            <div id="previewSection" class="preview-section d-none">
-                <h4>Prompt Preview</h4>
-                <div id="preview-pane" class="border"></div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button id="copyPreviewButton" class="btn btn-success" onclick="copyPreviewToClipboard()">Copy to Clipboard</button>
-                </div>
+              <div class="mb-3">
+                <label for="task" class="form-label"
+                  >Task Instructions <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Be specific about what you want the AI to do. Include details about deliverables, steps to follow, and any specific requirements."
+                  ></i>
+                </label>
+                <textarea
+                  id="task"
+                  rows="4"
+                  class="form-control"
+                  placeholder="Clearly describe what you need the AI to do, including any specific steps, methodology, or outcomes you're looking for..."
+                  required
+                ></textarea>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- FAQ Modal -->
-<div class="modal fade" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide">
+            <!-- Context and Background Section -->
+            <div class="form-group-card">
+              <h4><i class="bi bi-info-circle"></i> Context and Background</h4>
+              <p class="input-description">
+                Provide information that helps the AI understand the broader
+                situation
+              </p>
+
+              <div class="mb-3">
+                <label for="context" class="form-label"
+                  >Background Context
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Provide any background information that would help the AI understand the context of your request. This might include project history, existing work, or other relevant details."
+                  ></i>
+                </label>
+                <textarea
+                  id="context"
+                  rows="3"
+                  class="form-control"
+                  placeholder="Explain any background information that would be helpful for understanding the task context..."
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="audience" class="form-label"
+                  >Target Audience <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Define who will read or use the AI's response. Include details about their knowledge level, familiarity with the subject, and what they care about."
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  id="audience"
+                  class="form-control"
+                  placeholder="e.g., Junior developers, C-level executives, general public with no technical background"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Style and Format Section -->
+            <div class="form-group-card">
+              <h4><i class="bi bi-brush"></i> Style and Format</h4>
+              <p class="input-description">
+                Specify how the response should be written and structured
+              </p>
+
+              <div class="mb-3">
+                <label for="tone" class="form-label"
+                  >Tone <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Choose a tone that suits your needs and audience expectations. The tone affects word choice, sentence structure, and overall impression."
+                  ></i>
+                </label>
+                <select id="tone" class="form-select" required>
+                  <option value="" disabled>Select tone</option>
+                  <option value="Formal">Formal</option>
+                  <option value="Informal">Informal</option>
+                  <option value="Casual">Casual</option>
+                  <option value="Conversational">Conversational</option>
+                  <option value="Persuasive">Persuasive</option>
+                  <option value="Professional" selected>Professional</option>
+                  <option value="Friendly">Friendly</option>
+                  <option value="Serious">Serious</option>
+                  <option value="Humorous">Humorous</option>
+                  <option value="Educational">Educational</option>
+                  <option value="Empathetic">Empathetic</option>
+                  <option value="Authoritative">Authoritative</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="outputFormat" class="form-label"
+                  >Output Format <span class="text-danger">*</span>
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Select how the response should be structured. Different formats work better for different types of information."
+                  ></i>
+                </label>
+                <select id="outputFormat" class="form-select" required>
+                  <option value="" disabled>Select format</option>
+                  <option value="Plain Text" selected>Plain Text</option>
+                  <option value="Step-by-step Guide">Step-by-step Guide</option>
+                  <option value="Structured Sections with Headings">
+                    Structured Sections with Headings
+                  </option>
+                  <option value="JSON">JSON</option>
+                  <option value="Table">Table</option>
+                  <option value="Bullet Points">Bullet Points</option>
+                  <option value="Numbered List">Numbered List</option>
+                  <option value="Q&A Format">Q&A Format</option>
+                  <option value="Markdown">Markdown</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="responseLength" class="form-label"
+                  >Response Length
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Specify how detailed or concise you want the response to be. This helps the AI calibrate the level of detail."
+                  ></i>
+                </label>
+                <select id="responseLength" class="form-select">
+                  <option value="" selected disabled>
+                    Select preferred length
+                  </option>
+                  <option value="Very Concise">
+                    Very Concise (1-2 paragraphs)
+                  </option>
+                  <option value="Concise">Concise (2-3 paragraphs)</option>
+                  <option value="Moderate" selected>
+                    Moderate (4-6 paragraphs)
+                  </option>
+                  <option value="Detailed">Detailed (7-10 paragraphs)</option>
+                  <option value="Comprehensive">
+                    Comprehensive (10+ paragraphs)
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Advanced Options Section -->
+            <div class="form-group-card">
+              <h4><i class="bi bi-gear"></i> Advanced Options</h4>
+              <p class="input-description">
+                Fine-tune the AI's approach with additional guidelines
+              </p>
+
+              <div class="mb-3">
+                <label for="examples" class="form-label"
+                  >Examples
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Provide examples that demonstrate the type of response you're looking for. Examples are one of the most effective ways to guide AI behavior."
+                  ></i>
+                </label>
+                <textarea
+                  id="examples"
+                  rows="3"
+                  class="form-control"
+                  placeholder="Provide examples of the type of response you're looking for..."
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="constraints" class="form-label"
+                  >Constraints and Boundaries
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Specify what the AI should avoid or not include in its response. This helps prevent unwanted content or approaches."
+                  ></i>
+                </label>
+                <textarea
+                  id="constraints"
+                  rows="2"
+                  class="form-control"
+                  placeholder="Specify anything the AI should avoid or exclude..."
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="reasoning" class="form-label"
+                  >Reasoning Requirements
+                  <i
+                    class="bi bi-question-circle"
+                    tabindex="-1"
+                    data-bs-toggle="tooltip"
+                    title="Indicate if you want the AI to show its work or explain its thinking process in the response."
+                  ></i>
+                </label>
+                <select id="reasoning" class="form-select">
+                  <option value="" selected>No specific requirements</option>
+                  <option value="Show detailed reasoning">
+                    Show detailed reasoning
+                  </option>
+                  <option value="Explain assumptions">
+                    Explain assumptions
+                  </option>
+                  <option value="Cite sources where possible">
+                    Cite sources where possible
+                  </option>
+                  <option value="Include pros and cons">
+                    Include pros and cons
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="resetForm()"
+              >
+                Reset Form
+              </button>
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-info me-2"
+                  onclick="previewPrompt()"
+                >
+                  Preview
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="handleGeneratePrompt()"
+                >
+                  Generate & Copy Prompt
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Live Preview Section (initially hidden) -->
+          <div id="previewSection" class="preview-section d-none">
+            <h4>Prompt Preview</h4>
+            <div id="preview-pane" class="border"></div>
+            <div class="d-flex justify-content-end mt-2">
+              <button
+                id="copyPreviewButton"
+                class="btn btn-success"
+                onclick="copyPreviewToClipboard()"
+              >
+                Copy to Clipboard
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div
+      class="modal fade"
+      id="faqModal"
+      tabindex="-1"
+      aria-labelledby="faqModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide"
+      >
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="faqModalLabel">Prompt Engineering FAQ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5>General Questions</h5>
-                
-                <h6 class="mt-4">What makes a good AI prompt?</h6>
-                <p>A good AI prompt is clear, specific, and provides enough context for the AI to understand exactly what you need. It defines the role the AI should take, what task you need completed, and how the output should be formatted. Effective prompts often include examples and specify constraints.</p>
+          <div class="modal-header">
+            <h5 class="modal-title" id="faqModalLabel">
+              Prompt Engineering FAQ
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h5>General Questions</h5>
 
-                <h6 class="mt-4">Why is defining a role important?</h6>
-                <p>Defining a role gives the AI a specific perspective to adopt, which influences its tone, vocabulary, and approach. For example, a "Senior Software Engineer" would respond differently than a "High School Teacher" even to the same query. More specific roles (e.g., "Python Developer with 10 years of experience in financial services") typically yield more tailored responses.</p>
+            <h6 class="mt-4">What makes a good AI prompt?</h6>
+            <p>
+              A good AI prompt is clear, specific, and provides enough context
+              for the AI to understand exactly what you need. It defines the
+              role the AI should take, what task you need completed, and how the
+              output should be formatted. Effective prompts often include
+              examples and specify constraints.
+            </p>
 
-                <h6 class="mt-4">How specific should my task instructions be?</h6>
-                <p>Very specific. Vague instructions lead to vague outputs. For example, rather than asking for "information about climate change," specify "a 5-point summary of the latest IPCC findings on climate change mitigation strategies, focusing on technology solutions." The more details you provide about what you want, the better the AI can meet your expectations.</p>
+            <h6 class="mt-4">Why is defining a role important?</h6>
+            <p>
+              Defining a role gives the AI a specific perspective to adopt,
+              which influences its tone, vocabulary, and approach. For example,
+              a "Senior Software Engineer" would respond differently than a
+              "High School Teacher" even to the same query. More specific roles
+              (e.g., "Python Developer with 10 years of experience in financial
+              services") typically yield more tailored responses.
+            </p>
 
-                <h6 class="mt-4">How do I use the "Examples" field effectively?</h6>
-                <p>Examples are powerful ways to guide AI behavior. You can include samples of the type of output you want, showing specific formats, tones, or approaches. For instance, if you want a certain writing style, provide a paragraph written in that style. One or two high-quality examples are usually more effective than many low-quality ones.</p>
-                
-                <h6 class="mt-4">What should I include in "Constraints and Boundaries"?</h6>
-                <p>This field helps you specify what you don't want in the response. For example, "Do not include technical jargon," "Avoid discussing political implications," or "Do not use bullet points." This helps prevent the AI from including unwanted content or approaches.</p>
+            <h6 class="mt-4">How specific should my task instructions be?</h6>
+            <p>
+              Very specific. Vague instructions lead to vague outputs. For
+              example, rather than asking for "information about climate
+              change," specify "a 5-point summary of the latest IPCC findings on
+              climate change mitigation strategies, focusing on technology
+              solutions." The more details you provide about what you want, the
+              better the AI can meet your expectations.
+            </p>
 
-                <h5 class="mt-4">Tips for Better Prompts</h5>
-                
-                <ol>
-                    <li><strong>Be specific about format</strong>: If you want a table, specify the columns. If you want a list, mention how many items.</li>
-                    <li><strong>Define your audience clearly</strong>: "Senior executives with financial background" gives much better guidance than just "business people."</li>
-                    <li><strong>Use the reasoning field</strong>: When appropriate, asking the AI to show its work or explain its thinking can lead to more transparent, thoughtful responses.</li>
-                    <li><strong>Start with more constraints than fewer</strong>: You can always tell the AI to be more creative later, but starting with boundaries helps get focused responses.</li>
-                    <li><strong>Iterative refinement works best</strong>: Don't expect perfect results on the first try. Use the initial output to refine your prompt further.</li>
-                </ol>
-            </div>
+            <h6 class="mt-4">How do I use the "Examples" field effectively?</h6>
+            <p>
+              Examples are powerful ways to guide AI behavior. You can include
+              samples of the type of output you want, showing specific formats,
+              tones, or approaches. For instance, if you want a certain writing
+              style, provide a paragraph written in that style. One or two
+              high-quality examples are usually more effective than many
+              low-quality ones.
+            </p>
+
+            <h6 class="mt-4">
+              What should I include in "Constraints and Boundaries"?
+            </h6>
+            <p>
+              This field helps you specify what you don't want in the response.
+              For example, "Do not include technical jargon," "Avoid discussing
+              political implications," or "Do not use bullet points." This helps
+              prevent the AI from including unwanted content or approaches.
+            </p>
+
+            <h5 class="mt-4">Tips for Better Prompts</h5>
+
+            <ol>
+              <li>
+                <strong>Be specific about format</strong>: If you want a table,
+                specify the columns. If you want a list, mention how many items.
+              </li>
+              <li>
+                <strong>Define your audience clearly</strong>: "Senior
+                executives with financial background" gives much better guidance
+                than just "business people."
+              </li>
+              <li>
+                <strong>Use the reasoning field</strong>: When appropriate,
+                asking the AI to show its work or explain its thinking can lead
+                to more transparent, thoughtful responses.
+              </li>
+              <li>
+                <strong>Start with more constraints than fewer</strong>: You can
+                always tell the AI to be more creative later, but starting with
+                boundaries helps get focused responses.
+              </li>
+              <li>
+                <strong>Iterative refinement works best</strong>: Don't expect
+                perfect results on the first try. Use the initial output to
+                refine your prompt further.
+              </li>
+            </ol>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- Templates Modal -->
-<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="templateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide">
+    <!-- Templates Modal -->
+    <div
+      class="modal fade"
+      id="templateModal"
+      tabindex="-1"
+      aria-labelledby="templateModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide"
+      >
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="templateModalLabel">Prompt Templates</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Select a template to quickly fill the form with a starting point for different use cases:</p>
-                
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('code_review')">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Code Review</h5>
-                            <small><span class="badge bg-primary">Technical</span></small>
-                        </div>
-                        <p class="mb-1">Template for getting AI to review code for bugs and improvements</p>
-                    </a>
-                    
-                    <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('content_writer')">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Content Writer</h5>
-                            <small><span class="badge bg-success">Marketing</span></small>
-                        </div>
-                        <p class="mb-1">Template for creating blog posts and marketing content</p>
-                    </a>
-                    
-                    <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('data_analysis')">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Data Analysis</h5>
-                            <small><span class="badge bg-info">Analytics</span></small>
-                        </div>
-                        <p class="mb-1">Template for analyzing data and providing insights</p>
-                    </a>
-                    
-                    <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('learning_guide')">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Learning Guide</h5>
-                            <small><span class="badge bg-warning">Education</span></small>
-                        </div>
-                        <p class="mb-1">Template for creating educational content and tutorials</p>
-                    </a>
-                    
-                    <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('product_strategy')">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Product Strategy</h5>
-                            <small><span class="badge bg-secondary">Business</span></small>
-                        </div>
-                        <p class="mb-1">Template for product development and strategy advice</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+          <div class="modal-header">
+            <h5 class="modal-title" id="templateModalLabel">
+              Prompt Templates
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Select a template to quickly fill the form with a starting point
+              for different use cases:
+            </p>
 
-<!-- Preview Modal -->
-<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-wide">
+            <div class="list-group">
+              <a
+                href="#"
+                class="list-group-item list-group-item-action hover-highlight"
+                onclick="loadTemplate('code_review')"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Code Review</h5>
+                  <small><span class="badge bg-primary">Technical</span></small>
+                </div>
+                <p class="mb-1">
+                  Template for getting AI to review code for bugs and
+                  improvements
+                </p>
+              </a>
+
+              <a
+                href="#"
+                class="list-group-item list-group-item-action hover-highlight"
+                onclick="loadTemplate('content_writer')"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Content Writer</h5>
+                  <small><span class="badge bg-success">Marketing</span></small>
+                </div>
+                <p class="mb-1">
+                  Template for creating blog posts and marketing content
+                </p>
+              </a>
+
+              <a
+                href="#"
+                class="list-group-item list-group-item-action hover-highlight"
+                onclick="loadTemplate('data_analysis')"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Data Analysis</h5>
+                  <small><span class="badge bg-info">Analytics</span></small>
+                </div>
+                <p class="mb-1">
+                  Template for analyzing data and providing insights
+                </p>
+              </a>
+
+              <a
+                href="#"
+                class="list-group-item list-group-item-action hover-highlight"
+                onclick="loadTemplate('learning_guide')"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Learning Guide</h5>
+                  <small><span class="badge bg-warning">Education</span></small>
+                </div>
+                <p class="mb-1">
+                  Template for creating educational content and tutorials
+                </p>
+              </a>
+
+              <a
+                href="#"
+                class="list-group-item list-group-item-action hover-highlight"
+                onclick="loadTemplate('product_strategy')"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Product Strategy</h5>
+                  <small
+                    ><span class="badge bg-secondary">Business</span></small
+                  >
+                </div>
+                <p class="mb-1">
+                  Template for product development and strategy advice
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div
+      class="modal fade"
+      id="previewModal"
+      tabindex="-1"
+      aria-labelledby="previewModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-wide">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="previewModalLabel">Prompt Preview</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-header">
+            <h5 class="modal-title" id="previewModalLabel">Prompt Preview</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-info">
+              <i class="bi bi-lightbulb"></i> This is how your prompt will look
+              when sent to the AI. You can edit any field in the form to update
+              this preview.
             </div>
-            <div class="modal-body">
-                <div class="alert alert-info">
-                    <i class="bi bi-lightbulb"></i> This is how your prompt will look when sent to the AI. You can edit any field in the form to update this preview.
-                </div>
-                <pre id="previewPrompt" class="bg-dark text-light p-3 rounded" style="white-space: pre-wrap;"></pre>
-                <button id="copyModalPreviewButton" class="btn btn-success mt-3" onclick="copyModalPreviewToClipboard()">Copy to Clipboard</button>
-            </div>
+            <pre
+              id="previewPrompt"
+              class="bg-dark text-light p-3 rounded"
+              style="white-space: pre-wrap;"
+            ></pre>
+            <button
+              id="copyModalPreviewButton"
+              class="btn btn-success mt-3"
+              onclick="copyModalPreviewToClipboard()"
+            >
+              Copy to Clipboard
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<div class="alert-container"></div>
+    <div class="alert-container"></div>
 
-<!-- Bootstrap JS and Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Template definitions
-    const templates = {
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Template definitions
+      const templates = {
         code_review: {
-            role: "Senior Software Engineer",
-            expertise: "code review, software best practices, security, performance optimization, and clean code principles",
-            task: "Review the provided code for potential bugs, security vulnerabilities, performance issues, and adherence to best practices. Suggest specific improvements with code examples where appropriate.",
-            context: "This code is part of a larger application that needs to be maintainable and scalable.",
-            audience: "Mid-level developers who want to improve their coding skills",
-            tone: "Professional",
-            outputFormat: "Structured Sections with Headings",
-            responseLength: "Detailed",
-            examples: "Here's an example of good feedback:\n\"Your error handling approach in function X doesn't account for network timeouts. Consider adding a specific catch block for NetworkError exceptions as shown here: [code example]\"",
-            constraints: "Don't focus on stylistic preferences unless they impact readability. Focus on substantive issues.",
-            reasoning: "Explain assumptions"
+          role: "Senior Software Engineer",
+          expertise:
+            "code review, software best practices, security, performance optimization, and clean code principles",
+          task: "Review the provided code for potential bugs, security vulnerabilities, performance issues, and adherence to best practices. Suggest specific improvements with code examples where appropriate.",
+          context:
+            "This code is part of a larger application that needs to be maintainable and scalable.",
+          audience:
+            "Mid-level developers who want to improve their coding skills",
+          tone: "Professional",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Detailed",
+          examples:
+            "Here's an example of good feedback:\n\"Your error handling approach in function X doesn't account for network timeouts. Consider adding a specific catch block for NetworkError exceptions as shown here: [code example]\"",
+          constraints:
+            "Don't focus on stylistic preferences unless they impact readability. Focus on substantive issues.",
+          reasoning: "Explain assumptions",
         },
         content_writer: {
-            role: "Professional Content Writer",
-            expertise: "SEO optimization, engaging storytelling, content marketing, and audience engagement strategies",
-            task: "Create compelling blog content on the given topic that engages the target audience, incorporates relevant keywords naturally, and encourages reader action.",
-            context: "This content will be published on a company blog to establish thought leadership and drive conversions.",
-            audience: "Professionals interested in industry trends and solutions",
-            tone: "Conversational",
-            outputFormat: "Structured Sections with Headings",
-            responseLength: "Moderate",
-            examples: "Start with an engaging hook, use subheadings to break up content, include a clear call-to-action at the end.",
-            constraints: "Avoid industry jargon that might confuse newcomers. Keep paragraphs short and readable (3-4 sentences max).",
-            reasoning: "No specific requirements"
+          role: "Professional Content Writer",
+          expertise:
+            "SEO optimization, engaging storytelling, content marketing, and audience engagement strategies",
+          task: "Create compelling blog content on the given topic that engages the target audience, incorporates relevant keywords naturally, and encourages reader action.",
+          context:
+            "This content will be published on a company blog to establish thought leadership and drive conversions.",
+          audience: "Professionals interested in industry trends and solutions",
+          tone: "Conversational",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Moderate",
+          examples:
+            "Start with an engaging hook, use subheadings to break up content, include a clear call-to-action at the end.",
+          constraints:
+            "Avoid industry jargon that might confuse newcomers. Keep paragraphs short and readable (3-4 sentences max).",
+          reasoning: "No specific requirements",
         },
         data_analysis: {
-            role: "Data Scientist",
-            expertise: "statistical analysis, data visualization, pattern recognition, and insight extraction",
-            task: "Analyze the provided data set to identify key trends, correlations, and actionable insights. Recommend specific actions based on the findings.",
-            context: "This analysis will inform strategic business decisions and resource allocation.",
-            audience: "Business executives with limited statistical background",
-            tone: "Professional",
-            outputFormat: "Structured Sections with Headings",
-            responseLength: "Detailed",
-            examples: "",
-            constraints: "Avoid complex statistical terminology without explanation. Focus on business implications rather than technical details.",
-            reasoning: "Show detailed reasoning"
+          role: "Data Scientist",
+          expertise:
+            "statistical analysis, data visualization, pattern recognition, and insight extraction",
+          task: "Analyze the provided data set to identify key trends, correlations, and actionable insights. Recommend specific actions based on the findings.",
+          context:
+            "This analysis will inform strategic business decisions and resource allocation.",
+          audience: "Business executives with limited statistical background",
+          tone: "Professional",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Detailed",
+          examples: "",
+          constraints:
+            "Avoid complex statistical terminology without explanation. Focus on business implications rather than technical details.",
+          reasoning: "Show detailed reasoning",
         },
         learning_guide: {
-            role: "Experienced Educator",
-            expertise: "instructional design, breaking down complex concepts, creating engaging learning materials, and pedagogical best practices",
-            task: "Create a learning guide that explains the specified topic in an accessible way, with examples, exercises, and knowledge checks to reinforce understanding.",
-            context: "This guide will be used by self-directed learners trying to master a new skill or concept.",
-            audience: "Beginners with no prior knowledge of the subject",
-            tone: "Educational",
-            outputFormat: "Step-by-step Guide",
-            responseLength: "Comprehensive",
-            examples: "",
-            constraints: "Avoid assuming prior knowledge. Define all terms on first use. Include regular 'check your understanding' sections.",
-            reasoning: "Explain assumptions"
+          role: "Experienced Educator",
+          expertise:
+            "instructional design, breaking down complex concepts, creating engaging learning materials, and pedagogical best practices",
+          task: "Create a learning guide that explains the specified topic in an accessible way, with examples, exercises, and knowledge checks to reinforce understanding.",
+          context:
+            "This guide will be used by self-directed learners trying to master a new skill or concept.",
+          audience: "Beginners with no prior knowledge of the subject",
+          tone: "Educational",
+          outputFormat: "Step-by-step Guide",
+          responseLength: "Comprehensive",
+          examples: "",
+          constraints:
+            "Avoid assuming prior knowledge. Define all terms on first use. Include regular 'check your understanding' sections.",
+          reasoning: "Explain assumptions",
         },
         product_strategy: {
-            role: "Product Strategy Consultant",
-            expertise: "market analysis, product development, user experience design, competitive positioning, and go-to-market strategies",
-            task: "Analyze the current product offering and market landscape to provide strategic recommendations for product improvements, positioning, and growth opportunities.",
-            context: "The company is facing increased competition and needs to differentiate its product to maintain market share.",
-            audience: "C-level executives and product managers",
-            tone: "Authoritative",
-            outputFormat: "Structured Sections with Headings",
-            responseLength: "Detailed",
-            examples: "",
-            constraints: "Focus on actionable recommendations rather than theoretical concepts. Include considerations for both short-term wins and long-term strategy.",
-            reasoning: "Include pros and cons"
-        }
-    };
+          role: "Product Strategy Consultant",
+          expertise:
+            "market analysis, product development, user experience design, competitive positioning, and go-to-market strategies",
+          task: "Analyze the current product offering and market landscape to provide strategic recommendations for product improvements, positioning, and growth opportunities.",
+          context:
+            "The company is facing increased competition and needs to differentiate its product to maintain market share.",
+          audience: "C-level executives and product managers",
+          tone: "Authoritative",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Detailed",
+          examples: "",
+          constraints:
+            "Focus on actionable recommendations rather than theoretical concepts. Include considerations for both short-term wins and long-term strategy.",
+          reasoning: "Include pros and cons",
+        },
+        // Add these to your 'templates' object in the JavaScript
+        stakeholder_update: {
+          role: "Senior Project Manager",
+          expertise:
+            "corporate communications, stakeholder management, project reporting, and executive summaries",
+          task: "Create a professional email update for project stakeholders that clearly communicates current status, accomplishments, challenges, and next steps in a concise and actionable format.",
+          context:
+            "This communication is part of regular project governance and transparency efforts to keep all parties informed and aligned.",
+          audience:
+            "Cross-functional stakeholders including executives, department heads, and team leads",
+          tone: "Professional",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Moderate",
+          examples:
+            "Subject line should be clear and informative. Opening should acknowledge recipients and state purpose. Body should be organized with clear headings. Closing should include specific calls to action and offer availability for questions.",
+          constraints:
+            "Avoid technical jargon without explanation. Be direct about challenges but maintain a solution-oriented approach. Keep overall tone respectful while being honest about project status.",
+          reasoning: "No specific requirements",
+        },
+        issue_escalation: {
+          role: "Project Lead",
+          expertise:
+            "risk management, problem resolution, stakeholder communication, and diplomatic issue presentation",
+          task: "Draft a formal email to escalate a critical project issue to the appropriate stakeholders that clearly articulates the problem, its impact, attempted solutions, and requested actions or decisions needed.",
+          context:
+            "This communication addresses a significant project challenge that requires stakeholder awareness and possibly intervention.",
+          audience: "Senior leadership and relevant decision-makers",
+          tone: "Formal",
+          outputFormat: "Plain Text",
+          responseLength: "Concise",
+          examples:
+            "Begin with a clear subject line indicating urgency. State the issue directly but without blame. Include: 1) Issue description 2) Business impact 3) Actions taken so far 4) Recommendations 5) Specific request for decision/support.",
+          constraints:
+            "Maintain a respectful, solution-focused tone even when describing problems. Avoid finger-pointing or assigning blame. Present facts objectively. Don't overwhelm with unnecessary details that can be provided upon request.",
+          reasoning: "Show detailed reasoning",
+        },
+        cross_team_collaboration: {
+          role: "Team Leader",
+          expertise:
+            "cross-functional collaboration, resource coordination, interdepartmental communication, and project alignment",
+          task: "Compose an email to request collaboration from another department or team, clearly outlining what assistance is needed, why it's important to the overall project, and how the collaboration would work.",
+          context:
+            "This communication aims to establish effective cross-team partnership while respecting each group's priorities and constraints.",
+          audience:
+            "Peer managers and their team members from other departments",
+          tone: "Professional",
+          outputFormat: "Plain Text",
+          responseLength: "Concise",
+          examples:
+            "Start with a cordial greeting that acknowledges the recipient's role. Clearly state the purpose upfront. Explain: 1) What assistance is needed 2) Why their specific expertise is valuable 3) Timeline and estimated effort 4) Benefits to both teams/projects 5) Proposed next steps.",
+          constraints:
+            "Be considerate of the other team's existing workload and priorities. Offer flexibility where possible. Maintain a collegial tone that assumes positive intent and mutual benefit.",
+          reasoning: "No specific requirements",
+        },
 
-    // Form validation function
-    function validateForm() {
-        const requiredFields = ["role", "expertise", "task", "audience", "tone", "outputFormat"];
+        executive_briefing: {
+          role: "Senior Project Director",
+          expertise:
+            "executive communications, strategic briefings, business impact analysis, and concise reporting",
+          task: "Create a high-level executive summary email that distills complex project information into strategic insights and decision points appropriate for C-suite audience.",
+          context:
+            "This communication will inform executive decisions and may affect strategic planning or resource allocation.",
+          audience: "C-level executives and senior leadership team",
+          tone: "Formal",
+          outputFormat: "Structured Sections with Headings",
+          responseLength: "Concise",
+          examples: "",
+          constraints:
+            "Focus on business impact and strategic implications rather than technical details. Lead with the most important information. Use data-driven insights where available. Limit to 3-5 key points that require executive attention or decision.",
+          reasoning: "No specific requirements",
+        },
+      };
+
+      // Form validation function
+      function validateForm() {
+        const requiredFields = [
+          "role",
+          "expertise",
+          "task",
+          "audience",
+          "tone",
+          "outputFormat",
+        ];
         let isValid = true;
 
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (!field.value.trim()) {
-                field.classList.add("is-invalid");
-                isValid = false;
-            } else {
-                field.classList.remove("is-invalid");
-            }
+        requiredFields.forEach((fieldId) => {
+          const field = document.getElementById(fieldId);
+          if (!field.value.trim()) {
+            field.classList.add("is-invalid");
+            isValid = false;
+          } else {
+            field.classList.remove("is-invalid");
+          }
         });
 
         return isValid;
-    }
+      }
 
-    // Generate prompt from form fields
-    function generatePrompt() {
-        const role = document.getElementById('role').value.trim();
-        const expertise = document.getElementById('expertise').value.trim();
-        const task = document.getElementById('task').value.trim();
-        const audience = document.getElementById('audience').value.trim();
-        const tone = document.getElementById('tone').value;
-        const outputFormat = document.getElementById('outputFormat').value;
-        const context = document.getElementById('context').value.trim();
-        const examples = document.getElementById('examples').value.trim();
-        const constraints = document.getElementById('constraints').value.trim();
-        const reasoning = document.getElementById('reasoning').value;
-        const responseLength = document.getElementById('responseLength').value;
+      // Generate prompt from form fields
+      function generatePrompt() {
+        const role = document.getElementById("role").value.trim();
+        const expertise = document.getElementById("expertise").value.trim();
+        const task = document.getElementById("task").value.trim();
+        const audience = document.getElementById("audience").value.trim();
+        const tone = document.getElementById("tone").value;
+        const outputFormat = document.getElementById("outputFormat").value;
+        const context = document.getElementById("context").value.trim();
+        const examples = document.getElementById("examples").value.trim();
+        const constraints = document.getElementById("constraints").value.trim();
+        const reasoning = document.getElementById("reasoning").value;
+        const responseLength = document.getElementById("responseLength").value;
 
         // Constructing the prompt with sections using template literals
         let prompt = `# Role and Expertise
@@ -537,7 +950,7 @@ ${task}`;
 
         // Add context if provided
         if (context) {
-            prompt += `
+          prompt += `
 
 # Context
 ${context}`;
@@ -553,13 +966,13 @@ ${context}`;
 
         // Add response length if specified
         if (responseLength && responseLength !== "") {
-            prompt += `
+          prompt += `
 - Length: ${responseLength}`;
         }
 
         // Add examples if provided
         if (examples) {
-            prompt += `
+          prompt += `
 
 # Examples
 ${examples}`;
@@ -567,7 +980,7 @@ ${examples}`;
 
         // Add constraints if provided
         if (constraints) {
-            prompt += `
+          prompt += `
 
 # Constraints and Boundaries
 ${constraints}`;
@@ -575,7 +988,7 @@ ${constraints}`;
 
         // Add reasoning requirements if specified
         if (reasoning && reasoning !== "") {
-            prompt += `
+          prompt += `
 
 # Reasoning
 ${reasoning}`;
@@ -591,144 +1004,176 @@ ${reasoning}`;
 - Structure your response according to the specified format`;
 
         return prompt;
-    }
+      }
 
-    function handleGeneratePrompt() {
-    if (validateForm()) {
-        const prompt = generatePrompt();
-        navigator.clipboard.writeText(prompt).then(() => {
-            showAlert('Prompt generated and copied to clipboard!', 'success');
-            showPreview(prompt);
-        }).catch(() => {
-            showAlert('Failed to copy the prompt!', 'danger');
-            showPreview(prompt);
-        });
-    } else {
-        showAlert("Please fill in all required fields marked with *", 'danger');
-    }
-}
+      function handleGeneratePrompt() {
+        if (validateForm()) {
+          const prompt = generatePrompt();
+          navigator.clipboard
+            .writeText(prompt)
+            .then(() => {
+              showAlert("Prompt generated and copied to clipboard!", "success");
+              showPreview(prompt);
+            })
+            .catch(() => {
+              showAlert("Failed to copy the prompt!", "danger");
+              showPreview(prompt);
+            });
+        } else {
+          showAlert(
+            "Please fill in all required fields marked with *",
+            "danger"
+          );
+        }
+      }
 
-// Show alert message
-function showAlert(message, type) {
-    const alertContainer = document.querySelector('.alert-container');
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-    alertDiv.innerHTML = `
+      // Show alert message
+      function showAlert(message, type) {
+        const alertContainer = document.querySelector(".alert-container");
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
-    alertContainer.appendChild(alertDiv);
-    
-    // Auto dismiss after 3 seconds
-    setTimeout(() => {
-        alertDiv.classList.remove('show');
-        setTimeout(() => alertDiv.remove(), 300);
-    }, 3000);
-}
+        alertContainer.appendChild(alertDiv);
 
-// Show preview in preview pane
-function showPreview(prompt) {
-    const previewPane = document.getElementById('preview-pane');
-    previewPane.textContent = prompt;
-    document.getElementById('previewSection').classList.remove('d-none');
-    document.getElementById('previewPrompt').textContent = prompt;
-}
+        // Auto dismiss after 3 seconds
+        setTimeout(() => {
+          alertDiv.classList.remove("show");
+          setTimeout(() => alertDiv.remove(), 300);
+        }, 3000);
+      }
 
-// Function to preview prompt
-function previewPrompt() {
-    if (validateForm()) {
-        const prompt = generatePrompt();
-        document.getElementById('previewPrompt').textContent = prompt;
-        const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
-        previewModal.show();
-    } else {
-        showAlert("Please fill in all required fields marked with *", 'danger');
-    }
-}
+      // Show preview in preview pane
+      function showPreview(prompt) {
+        const previewPane = document.getElementById("preview-pane");
+        previewPane.textContent = prompt;
+        document.getElementById("previewSection").classList.remove("d-none");
+        document.getElementById("previewPrompt").textContent = prompt;
+      }
 
-// Copy preview to clipboard
-function copyPreviewToClipboard() {
-    const previewPane = document.getElementById('preview-pane');
-    navigator.clipboard.writeText(previewPane.textContent).then(() => {
-        showAlert('Copied to clipboard!', 'success');
-    }).catch(() => {
-        showAlert('Failed to copy to clipboard!', 'danger');
-    });
-}
+      // Function to preview prompt
+      function previewPrompt() {
+        if (validateForm()) {
+          const prompt = generatePrompt();
+          document.getElementById("previewPrompt").textContent = prompt;
+          const previewModal = new bootstrap.Modal(
+            document.getElementById("previewModal")
+          );
+          previewModal.show();
+        } else {
+          showAlert(
+            "Please fill in all required fields marked with *",
+            "danger"
+          );
+        }
+      }
 
-// Copy modal preview to clipboard
-function copyModalPreviewToClipboard() {
-    const previewPrompt = document.getElementById('previewPrompt');
-    navigator.clipboard.writeText(previewPrompt.textContent).then(() => {
-        showAlert('Copied to clipboard!', 'success');
-    }).catch(() => {
-        showAlert('Failed to copy to clipboard!', 'danger');
-    });
-}
+      // Copy preview to clipboard
+      function copyPreviewToClipboard() {
+        const previewPane = document.getElementById("preview-pane");
+        navigator.clipboard
+          .writeText(previewPane.textContent)
+          .then(() => {
+            showAlert("Copied to clipboard!", "success");
+          })
+          .catch(() => {
+            showAlert("Failed to copy to clipboard!", "danger");
+          });
+      }
 
-// Reset the form
-function resetForm() {
-    document.getElementById('prompt-form').reset();
-    document.getElementById('previewSection').classList.add('d-none');
-    // Remove validation styling
-    const formElements = document.querySelectorAll('.form-control, .form-select');
-    formElements.forEach(element => {
-        element.classList.remove('is-invalid');
-    });
-}
+      // Copy modal preview to clipboard
+      function copyModalPreviewToClipboard() {
+        const previewPrompt = document.getElementById("previewPrompt");
+        navigator.clipboard
+          .writeText(previewPrompt.textContent)
+          .then(() => {
+            showAlert("Copied to clipboard!", "success");
+          })
+          .catch(() => {
+            showAlert("Failed to copy to clipboard!", "danger");
+          });
+      }
 
-// Toggle theme function
-function toggleTheme() {
-    const htmlElement = document.documentElement;
-    const themeToggleButton = document.getElementById('themeToggle');
-    
-    if (htmlElement.getAttribute('data-bs-theme') === 'dark') {
-        htmlElement.setAttribute('data-bs-theme', 'light');
-        themeToggleButton.textContent = 'Switch to Dark Mode';
-        themeToggleButton.classList.replace('btn-outline-light', 'btn-outline-dark');
-    } else {
-        htmlElement.setAttribute('data-bs-theme', 'dark');
-        themeToggleButton.textContent = 'Switch to Light Mode';
-        themeToggleButton.classList.replace('btn-outline-dark', 'btn-outline-light');
-    }
-}
+      // Reset the form
+      function resetForm() {
+        document.getElementById("prompt-form").reset();
+        document.getElementById("previewSection").classList.add("d-none");
+        // Remove validation styling
+        const formElements = document.querySelectorAll(
+          ".form-control, .form-select"
+        );
+        formElements.forEach((element) => {
+          element.classList.remove("is-invalid");
+        });
+      }
 
-// Load template function
-function loadTemplate(templateName) {
-    const template = templates[templateName];
-    if (!template) return;
-    
-    // Set values for all fields
-    for (const [key, value] of Object.entries(template)) {
-        const field = document.getElementById(key);
-        if (field) {
+      // Toggle theme function
+      function toggleTheme() {
+        const htmlElement = document.documentElement;
+        const themeToggleButton = document.getElementById("themeToggle");
+
+        if (htmlElement.getAttribute("data-bs-theme") === "dark") {
+          htmlElement.setAttribute("data-bs-theme", "light");
+          themeToggleButton.textContent = "Switch to Dark Mode";
+          themeToggleButton.classList.replace(
+            "btn-outline-light",
+            "btn-outline-dark"
+          );
+        } else {
+          htmlElement.setAttribute("data-bs-theme", "dark");
+          themeToggleButton.textContent = "Switch to Light Mode";
+          themeToggleButton.classList.replace(
+            "btn-outline-dark",
+            "btn-outline-light"
+          );
+        }
+      }
+
+      // Load template function
+      function loadTemplate(templateName) {
+        const template = templates[templateName];
+        if (!template) return;
+
+        // Set values for all fields
+        for (const [key, value] of Object.entries(template)) {
+          const field = document.getElementById(key);
+          if (field) {
             field.value = value;
             // Remove any validation errors
-            field.classList.remove('is-invalid');
+            field.classList.remove("is-invalid");
+          }
         }
-    }
-    
-    // Close the modal
-    const modalElement = document.getElementById('templateModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    if (modal) modal.hide();
-    
-    showAlert(`${templateName.replace('_', ' ')} template loaded!`, 'success');
-}
 
-// Initialize tooltips
-document.addEventListener('DOMContentLoaded', function() {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function(tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-    
-    // Add event listener for preview menu
-    document.getElementById('previewMenu').addEventListener('click', function(e) {
-        e.preventDefault();
-        previewPrompt();
-    });
-});
-</script>
-</body>
+        // Close the modal
+        const modalElement = document.getElementById("templateModal");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) modal.hide();
+
+        showAlert(
+          `${templateName.replace("_", " ")} template loaded!`,
+          "success"
+        );
+      }
+
+      // Initialize tooltips
+      document.addEventListener("DOMContentLoaded", function () {
+        const tooltipTriggerList = [].slice.call(
+          document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Add event listener for preview menu
+        document
+          .getElementById("previewMenu")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            previewPrompt();
+          });
+      });
+    </script>
+  </body>
 </html>
