@@ -100,6 +100,53 @@
       .hover-highlight:hover {
           background-color: rgba(255,255,255,0.1);
       }
+      .template-card {
+          cursor: pointer;
+          transition: transform 0.15s, box-shadow 0.15s;
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 0.5rem;
+          padding: 0.75rem;
+          background: rgba(255,255,255,0.04);
+          min-height: 90px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+      .template-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          border-color: #0d6efd;
+      }
+      .template-card .card-title {
+          font-size: 0.95rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+      }
+      .template-card .card-desc {
+          font-size: 0.78rem;
+          color: #9e9e9e;
+          margin-bottom: 0;
+      }
+      .template-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 0.75rem;
+          margin-top: 1rem;
+      }
+      #categorySelect {
+          max-width: 320px;
+      }
+      [data-bs-theme="light"] .template-card {
+          border-color: rgba(0,0,0,0.12);
+          background: rgba(0,0,0,0.02);
+      }
+      [data-bs-theme="light"] .template-card .card-desc {
+          color: #6c757d;
+      }
+      .bg-purple {
+          background-color: #7952b3 !important;
+          color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -613,116 +660,11 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>
-              Select a template to quickly fill the form with a starting point
-              for different use cases:
-            </p>
-
-            <div class="list-group">
-              <a
-                href="#"
-                class="list-group-item list-group-item-action hover-highlight"
-                onclick="loadTemplate('code_review')"
-              >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Code Review</h5>
-                  <small><span class="badge bg-primary">Technical</span></small>
-                </div>
-                <p class="mb-1">
-                  Template for getting AI to review code for bugs and
-                  improvements
-                </p>
-              </a>
-
-              <a
-                href="#"
-                class="list-group-item list-group-item-action hover-highlight"
-                onclick="loadTemplate('content_writer')"
-              >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Content Writer</h5>
-                  <small><span class="badge bg-success">Marketing</span></small>
-                </div>
-                <p class="mb-1">
-                  Template for creating blog posts and marketing content
-                </p>
-              </a>
-
-              <a
-                href="#"
-                class="list-group-item list-group-item-action hover-highlight"
-                onclick="loadTemplate('data_analysis')"
-              >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Data Analysis</h5>
-                  <small><span class="badge bg-info">Analytics</span></small>
-                </div>
-                <p class="mb-1">
-                  Template for analyzing data and providing insights
-                </p>
-              </a>
-
-              <a
-                href="#"
-                class="list-group-item list-group-item-action hover-highlight"
-                onclick="loadTemplate('learning_guide')"
-              >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Learning Guide</h5>
-                  <small><span class="badge bg-warning">Education</span></small>
-                </div>
-                <p class="mb-1">
-                  Template for creating educational content and tutorials
-                </p>
-              </a>
-
-              <a
-                href="#"
-                class="list-group-item list-group-item-action hover-highlight"
-                onclick="loadTemplate('product_strategy')"
-              >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Product Strategy</h5>
-                  <small
-                    ><span class="badge bg-secondary">Business</span></small
-                  >
-                </div>
-                <p class="mb-1">
-                  Template for product development and strategy advice
-                </p>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('stakeholder_update')">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Stakeholder Update</h5>
-                  <small><span class="badge bg-info">Communication</span></small>
-                </div>
-                <p class="mb-1">Template for regular project status updates to stakeholders</p>
-              </a>
-              
-              <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('issue_escalation')">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Issue Escalation</h5>
-                  <small><span class="badge bg-danger">Communication</span></small>
-                </div>
-                <p class="mb-1">Template for professionally communicating problems to leadership</p>
-              </a>
-              
-              <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('cross_team_collaboration')">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Cross-Team Collaboration</h5>
-                  <small><span class="badge bg-primary">Communication</span></small>
-                </div>
-                <p class="mb-1">Template for requesting assistance from other departments</p>
-              </a>
-              
-              <a href="#" class="list-group-item list-group-item-action hover-highlight" onclick="loadTemplate('executive_briefing')">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Executive Briefing</h5>
-                  <small><span class="badge bg-dark">Communication</span></small>
-                </div>
-                <p class="mb-1">Template for concise C-level communications and updates</p>
-              </a>
-            </div>
+            <p>Select a category, then pick a role template to fill the form:</p>
+            <select id="categorySelect" class="form-select mb-2" onchange="renderTemplateCards()">
+              <option value="">-- Select a Category --</option>
+            </select>
+            <div id="templateGrid" class="template-grid"></div>
           </div>
         </div>
       </div>
@@ -775,162 +717,395 @@
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // Template definitions
+      // ── Category definitions ──
+      const categories = [
+        { id: "general",        label: "General",                      badge: "secondary" },
+        { id: "engineering",    label: "Engineering",                  badge: "primary" },
+        { id: "design",        label: "Design & UX",                  badge: "purple" },
+        { id: "product",       label: "Product & Strategy",           badge: "success" },
+        { id: "quality",       label: "Quality & Testing",            badge: "warning" },
+        { id: "business",      label: "Business & Analytics",         badge: "info" },
+        { id: "security",      label: "Security & Infrastructure",    badge: "danger" },
+        { id: "documentation", label: "Documentation & Communication", badge: "dark" }
+      ];
+
+      // ── Template definitions ──
       const templates = {
+        // ─── General (existing) ───
         code_review: {
+          category: "general", title: "Code Review", description: "Review code for bugs and improvements",
           role: "Senior Software Engineer",
-          expertise:
-            "code review, software best practices, security, performance optimization, and clean code principles",
+          expertise: "code review, software best practices, security, performance optimization, and clean code principles",
           task: "Review the provided code for potential bugs, security vulnerabilities, performance issues, and adherence to best practices. Suggest specific improvements with code examples where appropriate.",
-          context:
-            "This code is part of a larger application that needs to be maintainable and scalable.",
-          audience:
-            "Mid-level developers who want to improve their coding skills",
-          tone: "Professional",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Detailed",
-          examples:
-            "Here's an example of good feedback:\n\"Your error handling approach in function X doesn't account for network timeouts. Consider adding a specific catch block for NetworkError exceptions as shown here: [code example]\"",
-          constraints:
-            "Don't focus on stylistic preferences unless they impact readability. Focus on substantive issues.",
-          reasoning: "Explain assumptions",
+          context: "This code is part of a larger application that needs to be maintainable and scalable.",
+          audience: "Mid-level developers who want to improve their coding skills",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Here's an example of good feedback:\n\"Your error handling approach in function X doesn't account for network timeouts. Consider adding a specific catch block for NetworkError exceptions as shown here: [code example]\"",
+          constraints: "Don't focus on stylistic preferences unless they impact readability. Focus on substantive issues.",
+          reasoning: "Explain assumptions"
         },
         content_writer: {
+          category: "general", title: "Content Writer", description: "Create blog posts and marketing content",
           role: "Professional Content Writer",
-          expertise:
-            "SEO optimization, engaging storytelling, content marketing, and audience engagement strategies",
+          expertise: "SEO optimization, engaging storytelling, content marketing, and audience engagement strategies",
           task: "Create compelling blog content on the given topic that engages the target audience, incorporates relevant keywords naturally, and encourages reader action.",
-          context:
-            "This content will be published on a company blog to establish thought leadership and drive conversions.",
+          context: "This content will be published on a company blog to establish thought leadership and drive conversions.",
           audience: "Professionals interested in industry trends and solutions",
-          tone: "Conversational",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Moderate",
-          examples:
-            "Start with an engaging hook, use subheadings to break up content, include a clear call-to-action at the end.",
-          constraints:
-            "Avoid industry jargon that might confuse newcomers. Keep paragraphs short and readable (3-4 sentences max).",
-          reasoning: "No specific requirements",
+          tone: "Conversational", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
+          examples: "Start with an engaging hook, use subheadings to break up content, include a clear call-to-action at the end.",
+          constraints: "Avoid industry jargon that might confuse newcomers. Keep paragraphs short and readable (3-4 sentences max).",
+          reasoning: ""
         },
         data_analysis: {
+          category: "general", title: "Data Analysis", description: "Analyze data and provide insights",
           role: "Data Scientist",
-          expertise:
-            "statistical analysis, data visualization, pattern recognition, and insight extraction",
+          expertise: "statistical analysis, data visualization, pattern recognition, and insight extraction",
           task: "Analyze the provided data set to identify key trends, correlations, and actionable insights. Recommend specific actions based on the findings.",
-          context:
-            "This analysis will inform strategic business decisions and resource allocation.",
+          context: "This analysis will inform strategic business decisions and resource allocation.",
           audience: "Business executives with limited statistical background",
-          tone: "Professional",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Detailed",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
           examples: "",
-          constraints:
-            "Avoid complex statistical terminology without explanation. Focus on business implications rather than technical details.",
-          reasoning: "Show detailed reasoning",
+          constraints: "Avoid complex statistical terminology without explanation. Focus on business implications rather than technical details.",
+          reasoning: "Show detailed reasoning"
         },
         learning_guide: {
+          category: "general", title: "Learning Guide", description: "Create educational content and tutorials",
           role: "Experienced Educator",
-          expertise:
-            "instructional design, breaking down complex concepts, creating engaging learning materials, and pedagogical best practices",
+          expertise: "instructional design, breaking down complex concepts, creating engaging learning materials, and pedagogical best practices",
           task: "Create a learning guide that explains the specified topic in an accessible way, with examples, exercises, and knowledge checks to reinforce understanding.",
-          context:
-            "This guide will be used by self-directed learners trying to master a new skill or concept.",
+          context: "This guide will be used by self-directed learners trying to master a new skill or concept.",
           audience: "Beginners with no prior knowledge of the subject",
-          tone: "Educational",
-          outputFormat: "Step-by-step Guide",
-          responseLength: "Comprehensive",
+          tone: "Educational", outputFormat: "Step-by-step Guide", responseLength: "Comprehensive",
           examples: "",
-          constraints:
-            "Avoid assuming prior knowledge. Define all terms on first use. Include regular 'check your understanding' sections.",
-          reasoning: "Explain assumptions",
+          constraints: "Avoid assuming prior knowledge. Define all terms on first use. Include regular 'check your understanding' sections.",
+          reasoning: "Explain assumptions"
         },
         product_strategy: {
+          category: "general", title: "Product Strategy", description: "Product development and strategy advice",
           role: "Product Strategy Consultant",
-          expertise:
-            "market analysis, product development, user experience design, competitive positioning, and go-to-market strategies",
+          expertise: "market analysis, product development, user experience design, competitive positioning, and go-to-market strategies",
           task: "Analyze the current product offering and market landscape to provide strategic recommendations for product improvements, positioning, and growth opportunities.",
-          context:
-            "The company is facing increased competition and needs to differentiate its product to maintain market share.",
+          context: "The company is facing increased competition and needs to differentiate its product to maintain market share.",
           audience: "C-level executives and product managers",
-          tone: "Authoritative",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Detailed",
+          tone: "Authoritative", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
           examples: "",
-          constraints:
-            "Focus on actionable recommendations rather than theoretical concepts. Include considerations for both short-term wins and long-term strategy.",
-          reasoning: "Include pros and cons",
+          constraints: "Focus on actionable recommendations rather than theoretical concepts. Include considerations for both short-term wins and long-term strategy.",
+          reasoning: "Include pros and cons"
         },
-        // Add these to your 'templates' object in the JavaScript
         stakeholder_update: {
+          category: "general", title: "Stakeholder Update", description: "Project status updates to stakeholders",
           role: "Senior Project Manager",
-          expertise:
-            "corporate communications, stakeholder management, project reporting, and executive summaries",
+          expertise: "corporate communications, stakeholder management, project reporting, and executive summaries",
           task: "Create a professional email update for project stakeholders that clearly communicates current status, accomplishments, challenges, and next steps in a concise and actionable format.",
-          context:
-            "This communication is part of regular project governance and transparency efforts to keep all parties informed and aligned.",
-          audience:
-            "Cross-functional stakeholders including executives, department heads, and team leads",
-          tone: "Professional",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Moderate",
-          examples:
-            "Subject line should be clear and informative. Opening should acknowledge recipients and state purpose. Body should be organized with clear headings. Closing should include specific calls to action and offer availability for questions.",
-          constraints:
-            "Avoid technical jargon without explanation. Be direct about challenges but maintain a solution-oriented approach. Keep overall tone respectful while being honest about project status.",
-          reasoning: "No specific requirements",
+          context: "This communication is part of regular project governance and transparency efforts to keep all parties informed and aligned.",
+          audience: "Cross-functional stakeholders including executives, department heads, and team leads",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
+          examples: "Subject line should be clear and informative. Opening should acknowledge recipients and state purpose. Body should be organized with clear headings. Closing should include specific calls to action and offer availability for questions.",
+          constraints: "Avoid technical jargon without explanation. Be direct about challenges but maintain a solution-oriented approach. Keep overall tone respectful while being honest about project status.",
+          reasoning: ""
         },
         issue_escalation: {
+          category: "general", title: "Issue Escalation", description: "Communicate problems to leadership",
           role: "Project Lead",
-          expertise:
-            "risk management, problem resolution, stakeholder communication, and diplomatic issue presentation",
+          expertise: "risk management, problem resolution, stakeholder communication, and diplomatic issue presentation",
           task: "Draft a formal email to escalate a critical project issue to the appropriate stakeholders that clearly articulates the problem, its impact, attempted solutions, and requested actions or decisions needed.",
-          context:
-            "This communication addresses a significant project challenge that requires stakeholder awareness and possibly intervention.",
+          context: "This communication addresses a significant project challenge that requires stakeholder awareness and possibly intervention.",
           audience: "Senior leadership and relevant decision-makers",
-          tone: "Formal",
-          outputFormat: "Plain Text",
-          responseLength: "Concise",
-          examples:
-            "Begin with a clear subject line indicating urgency. State the issue directly but without blame. Include: 1) Issue description 2) Business impact 3) Actions taken so far 4) Recommendations 5) Specific request for decision/support.",
-          constraints:
-            "Maintain a respectful, solution-focused tone even when describing problems. Avoid finger-pointing or assigning blame. Present facts objectively. Don't overwhelm with unnecessary details that can be provided upon request.",
-          reasoning: "Show detailed reasoning",
+          tone: "Formal", outputFormat: "Plain Text", responseLength: "Concise",
+          examples: "Begin with a clear subject line indicating urgency. State the issue directly but without blame. Include: 1) Issue description 2) Business impact 3) Actions taken so far 4) Recommendations 5) Specific request for decision/support.",
+          constraints: "Maintain a respectful, solution-focused tone even when describing problems. Avoid finger-pointing or assigning blame. Present facts objectively.",
+          reasoning: "Show detailed reasoning"
         },
         cross_team_collaboration: {
+          category: "general", title: "Cross-Team Collaboration", description: "Request assistance from other departments",
           role: "Team Leader",
-          expertise:
-            "cross-functional collaboration, resource coordination, interdepartmental communication, and project alignment",
+          expertise: "cross-functional collaboration, resource coordination, interdepartmental communication, and project alignment",
           task: "Compose an email to request collaboration from another department or team, clearly outlining what assistance is needed, why it's important to the overall project, and how the collaboration would work.",
-          context:
-            "This communication aims to establish effective cross-team partnership while respecting each group's priorities and constraints.",
-          audience:
-            "Peer managers and their team members from other departments",
-          tone: "Professional",
-          outputFormat: "Plain Text",
-          responseLength: "Concise",
-          examples:
-            "Start with a cordial greeting that acknowledges the recipient's role. Clearly state the purpose upfront. Explain: 1) What assistance is needed 2) Why their specific expertise is valuable 3) Timeline and estimated effort 4) Benefits to both teams/projects 5) Proposed next steps.",
-          constraints:
-            "Be considerate of the other team's existing workload and priorities. Offer flexibility where possible. Maintain a collegial tone that assumes positive intent and mutual benefit.",
-          reasoning: "No specific requirements",
+          context: "This communication aims to establish effective cross-team partnership while respecting each group's priorities and constraints.",
+          audience: "Peer managers and their team members from other departments",
+          tone: "Professional", outputFormat: "Plain Text", responseLength: "Concise",
+          examples: "Start with a cordial greeting that acknowledges the recipient's role. Clearly state the purpose upfront. Explain: 1) What assistance is needed 2) Why their specific expertise is valuable 3) Timeline and estimated effort 4) Benefits to both teams/projects 5) Proposed next steps.",
+          constraints: "Be considerate of the other team's existing workload and priorities. Offer flexibility where possible. Maintain a collegial tone that assumes positive intent and mutual benefit.",
+          reasoning: ""
+        },
+        executive_briefing: {
+          category: "general", title: "Executive Briefing", description: "Concise C-level communications and updates",
+          role: "Senior Project Director",
+          expertise: "executive communications, strategic briefings, business impact analysis, and concise reporting",
+          task: "Create a high-level executive summary email that distills complex project information into strategic insights and decision points appropriate for C-suite audience.",
+          context: "This communication will inform executive decisions and may affect strategic planning or resource allocation.",
+          audience: "C-level executives and senior leadership team",
+          tone: "Formal", outputFormat: "Structured Sections with Headings", responseLength: "Concise",
+          examples: "",
+          constraints: "Focus on business impact and strategic implications rather than technical details. Lead with the most important information. Use data-driven insights where available. Limit to 3-5 key points that require executive attention or decision.",
+          reasoning: ""
         },
 
-        executive_briefing: {
-          role: "Senior Project Director",
-          expertise:
-            "executive communications, strategic briefings, business impact analysis, and concise reporting",
-          task: "Create a high-level executive summary email that distills complex project information into strategic insights and decision points appropriate for C-suite audience.",
-          context:
-            "This communication will inform executive decisions and may affect strategic planning or resource allocation.",
-          audience: "C-level executives and senior leadership team",
-          tone: "Formal",
-          outputFormat: "Structured Sections with Headings",
-          responseLength: "Concise",
-          examples: "",
-          constraints:
-            "Focus on business impact and strategic implications rather than technical details. Lead with the most important information. Use data-driven insights where available. Limit to 3-5 key points that require executive attention or decision.",
-          reasoning: "No specific requirements",
+        // ─── Engineering ───
+        backend_developer: {
+          category: "engineering", title: "Backend Developer", description: "Server-side architecture, APIs, and database design",
+          role: "Senior Backend Developer",
+          expertise: "RESTful API design, microservices architecture, database optimization, server-side languages (Java, Python, Node.js), caching strategies, and message queues",
+          task: "Design or review the backend architecture for the specified feature, including API endpoint definitions, database schema, error handling strategy, and integration points with other services.",
+          context: "This is part of a production application that must handle high traffic with low latency and maintain data integrity.",
+          audience: "Development team members and technical leads",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include API endpoint specifications with HTTP methods, request/response payloads, and status codes. Provide database schema with relationships and indexes.",
+          constraints: "Follow REST conventions. Consider backward compatibility. Address scalability and performance implications of every design decision.",
+          reasoning: "Show detailed reasoning"
         },
+        frontend_developer: {
+          category: "engineering", title: "Frontend Developer", description: "UI implementation, state management, and performance",
+          role: "Senior Frontend Developer",
+          expertise: "modern JavaScript/TypeScript, React/Angular/Vue, responsive design, state management, accessibility (WCAG), performance optimization, and component architecture",
+          task: "Design or implement the frontend architecture for the specified feature, including component hierarchy, state management approach, API integration, and responsive design considerations.",
+          context: "This feature will be used across desktop and mobile browsers and must meet accessibility standards.",
+          audience: "Frontend development team and UX designers",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include component tree structure, key props/state, and interaction flow diagrams where helpful.",
+          constraints: "Ensure accessibility compliance (WCAG 2.1 AA). Minimize bundle size impact. Follow established component patterns in the codebase.",
+          reasoning: "Explain assumptions"
+        },
+        fullstack_developer: {
+          category: "engineering", title: "Full-stack Developer", description: "End-to-end feature design spanning frontend and backend",
+          role: "Senior Full-stack Developer",
+          expertise: "end-to-end application development, API design, frontend frameworks, database design, authentication, deployment pipelines, and system integration",
+          task: "Design and plan the full implementation of the specified feature from database schema through API layer to user interface, including data flow, error handling, and testing strategy.",
+          context: "This feature requires coordinated changes across the entire stack and must integrate seamlessly with existing functionality.",
+          audience: "Cross-functional development team",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Comprehensive",
+          examples: "Provide the implementation plan in layers: database changes, API endpoints, frontend components, and integration tests.",
+          constraints: "Maintain consistency with existing architectural patterns. Consider deployment and rollback strategy. Address both happy path and edge cases.",
+          reasoning: "Show detailed reasoning"
+        },
+        tech_lead: {
+          category: "engineering", title: "Tech Lead / Architect", description: "System design, technical decisions, and architecture review",
+          role: "Principal Software Architect",
+          expertise: "system design, distributed systems, design patterns, technical decision-making, trade-off analysis, scalability planning, and technology evaluation",
+          task: "Evaluate the proposed technical approach for the specified initiative, identify architectural risks, recommend design patterns, and provide a technical roadmap with clear milestones.",
+          context: "The team needs architectural guidance to ensure the solution scales, remains maintainable, and aligns with long-term technical strategy.",
+          audience: "Engineering leadership, development teams, and stakeholders",
+          tone: "Authoritative", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "",
+          constraints: "Focus on trade-offs rather than prescriptive solutions. Consider team capacity, timeline, and existing technical debt. Provide options with clear pros and cons.",
+          reasoning: "Include pros and cons"
+        },
+        devops_engineer: {
+          category: "engineering", title: "DevOps / SRE Engineer", description: "CI/CD, infrastructure, monitoring, and reliability",
+          role: "Senior DevOps / SRE Engineer",
+          expertise: "CI/CD pipelines, container orchestration (Docker, Kubernetes), infrastructure as code (Terraform, CloudFormation), monitoring and alerting, incident response, and cloud platforms (AWS, Azure, GCP)",
+          task: "Design the deployment pipeline, infrastructure setup, and operational strategy for the specified service or feature, including monitoring, alerting, and disaster recovery considerations.",
+          context: "The system must maintain high availability (99.9%+) and support rapid, safe deployments with minimal downtime.",
+          audience: "Engineering and operations teams",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include pipeline stages, infrastructure diagram concepts, key metrics to monitor, and runbook outline for common incidents.",
+          constraints: "Prioritize automation and repeatability. Follow the principle of least privilege for access controls. Consider cost implications of infrastructure choices.",
+          reasoning: "Show detailed reasoning"
+        },
+
+        // ─── Design & UX ───
+        ux_designer: {
+          category: "design", title: "UX Designer", description: "User experience flows, wireframes, and interaction design",
+          role: "Senior UX Designer",
+          expertise: "user-centered design, information architecture, interaction design, wireframing, prototyping, usability heuristics, and design systems",
+          task: "Design the user experience for the specified feature, including user flows, wireframe concepts, interaction patterns, and usability considerations that align with the product's design system.",
+          context: "This feature will be integrated into an existing product used by thousands of users daily. Consistency with existing UX patterns is important.",
+          audience: "Product managers, developers, and design team members",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Describe user flows step-by-step with decision points. Include wireframe descriptions with key UI elements and their purposes.",
+          constraints: "Follow established design system patterns. Prioritize simplicity and discoverability. Consider accessibility requirements and edge cases (empty states, error states, loading states).",
+          reasoning: "Explain assumptions"
+        },
+        ux_researcher: {
+          category: "design", title: "UX Researcher", description: "User research plans, usability testing, and insights synthesis",
+          role: "UX Researcher",
+          expertise: "qualitative and quantitative research methods, usability testing, survey design, user interviews, data synthesis, persona development, and journey mapping",
+          task: "Create a research plan for the specified feature or problem area, including research objectives, methodology selection, participant criteria, key questions, and analysis framework.",
+          context: "The product team needs user insights to validate assumptions and guide design decisions for an upcoming feature.",
+          audience: "Product managers, designers, and stakeholders",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include sample interview questions, screening criteria for participants, and a template for synthesizing findings into actionable insights.",
+          constraints: "Keep the research plan realistic in scope and timeline. Focus on actionable insights over academic rigor. Consider ethical guidelines for user research.",
+          reasoning: "Explain assumptions"
+        },
+        ui_designer: {
+          category: "design", title: "UI Designer", description: "Visual design, design systems, and component styling",
+          role: "Senior UI Designer",
+          expertise: "visual design, typography, color theory, design systems, component libraries, responsive design, and brand consistency",
+          task: "Define the visual design specifications for the specified feature, including color usage, typography, spacing, component styling, and visual hierarchy that aligns with the brand and design system.",
+          context: "This design must integrate seamlessly with the existing product interface and design system while meeting accessibility contrast requirements.",
+          audience: "Developers implementing the design and design team for review",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
+          examples: "Provide specific values: hex colors, font sizes, spacing units, border-radius values, and shadow definitions. Reference design system tokens where applicable.",
+          constraints: "Meet WCAG 2.1 AA contrast ratios. Use only existing design system tokens unless new ones are justified. Ensure consistency across light and dark themes.",
+          reasoning: ""
+        },
+
+        // ─── Product & Strategy ───
+        product_manager: {
+          category: "product", title: "Product Manager", description: "Feature specs, roadmap planning, and prioritization",
+          role: "Senior Product Manager",
+          expertise: "product strategy, feature prioritization, user story creation, roadmap planning, stakeholder management, market analysis, and agile methodologies",
+          task: "Create a detailed product requirements document for the specified feature, including problem statement, user stories, acceptance criteria, success metrics, and prioritization rationale.",
+          context: "This feature is being considered for the next quarter's roadmap and needs a clear business case and technical feasibility assessment.",
+          audience: "Engineering leads, designers, and executive stakeholders",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "User stories should follow the format: As a [user type], I want to [action] so that [benefit]. Each story should have measurable acceptance criteria.",
+          constraints: "Focus on the problem and desired outcomes, not specific implementation. Include measurable success metrics. Consider edge cases and negative scenarios.",
+          reasoning: "Include pros and cons"
+        },
+        product_owner: {
+          category: "product", title: "Product Owner", description: "Backlog management, sprint planning, and story refinement",
+          role: "Product Owner",
+          expertise: "backlog management, user story refinement, sprint planning, acceptance criteria definition, stakeholder communication, and agile ceremonies",
+          task: "Refine and prioritize the product backlog for the specified feature area, including detailed user stories with acceptance criteria, story point estimates, and sprint planning recommendations.",
+          context: "The development team needs a well-groomed backlog to maintain velocity and deliver value incrementally.",
+          audience: "Scrum team, developers, and QA engineers",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Break features into small, independently deliverable stories. Include definition of done for each story.",
+          constraints: "Stories must be small enough to complete within a single sprint. Each story should deliver user-facing value where possible. Include technical debt items alongside feature work.",
+          reasoning: "Explain assumptions"
+        },
+        scrum_master: {
+          category: "product", title: "Scrum Master / Agile Coach", description: "Process improvement, retrospectives, and team facilitation",
+          role: "Experienced Scrum Master / Agile Coach",
+          expertise: "agile frameworks (Scrum, Kanban, SAFe), team facilitation, impediment removal, process improvement, retrospective techniques, and coaching",
+          task: "Assess the team's current agile practices and recommend specific improvements, facilitation techniques, or ceremony adjustments to improve team effectiveness and delivery predictability.",
+          context: "The team is experiencing challenges with delivery consistency and cross-team coordination that need to be addressed through process improvements.",
+          audience: "Development team, product owners, and engineering managers",
+          tone: "Conversational", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
+          examples: "Provide specific retrospective formats, meeting agenda templates, or workflow visualization techniques that address the identified challenges.",
+          constraints: "Focus on practical, actionable improvements rather than theoretical frameworks. Consider team culture and change readiness. Suggest incremental changes over wholesale process overhauls.",
+          reasoning: "Explain assumptions"
+        },
+
+        // ─── Quality & Testing ───
+        qa_engineer: {
+          category: "quality", title: "QA Engineer", description: "Test strategy, test cases, and quality assurance planning",
+          role: "Senior QA Engineer",
+          expertise: "test strategy design, manual and automated testing, test case creation, regression testing, API testing, and quality metrics",
+          task: "Create a comprehensive test plan for the specified feature, including test strategy, detailed test cases covering positive and negative scenarios, edge cases, and automation recommendations.",
+          context: "This feature is critical to the product and requires thorough testing before release to production.",
+          audience: "QA team, developers, and release managers",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Test cases should include: ID, title, preconditions, steps, expected result, and priority. Group by functional area.",
+          constraints: "Cover both happy path and edge cases. Include data validation, boundary conditions, and integration scenarios. Prioritize test cases by risk and business impact.",
+          reasoning: "Show detailed reasoning"
+        },
+        performance_tester: {
+          category: "quality", title: "Performance Tester", description: "Load testing, benchmarking, and performance optimization",
+          role: "Performance Test Engineer",
+          expertise: "load testing, stress testing, performance benchmarking, JMeter/Gatling/k6, APM tools, bottleneck identification, and capacity planning",
+          task: "Design a performance testing strategy for the specified system or feature, including test scenarios, load profiles, key metrics to measure, acceptance thresholds, and analysis approach.",
+          context: "The system must handle expected production load with acceptable response times and resource utilization.",
+          audience: "Development team, DevOps engineers, and technical leads",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include specific load profiles (concurrent users, requests per second), response time thresholds (p50, p95, p99), and resource utilization limits.",
+          constraints: "Design tests that reflect realistic production traffic patterns. Include both steady-state and spike scenarios. Consider infrastructure costs of performance testing environments.",
+          reasoning: "Show detailed reasoning"
+        },
+        security_tester: {
+          category: "quality", title: "Security Tester", description: "Security testing, vulnerability assessment, and penetration testing",
+          role: "Application Security Tester",
+          expertise: "OWASP Top 10, penetration testing methodology, vulnerability assessment, security scanning tools, threat modeling, and secure development practices",
+          task: "Create a security test plan for the specified application or feature, including threat model, test scenarios for common vulnerabilities, tools to use, and remediation guidance templates.",
+          context: "The application handles sensitive data and must meet security compliance requirements before production deployment.",
+          audience: "Development team, security team, and compliance officers",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include test cases for OWASP Top 10 categories relevant to the feature: injection, broken authentication, sensitive data exposure, etc.",
+          constraints: "Focus on the most likely attack vectors for the specific feature. Provide clear severity ratings and remediation priorities. Include both automated and manual testing approaches.",
+          reasoning: "Show detailed reasoning"
+        },
+
+        // ─── Business & Analytics ───
+        business_analyst: {
+          category: "business", title: "Business Analyst", description: "Requirements gathering, process mapping, and gap analysis",
+          role: "Senior Business Analyst",
+          expertise: "requirements elicitation, process modeling (BPMN), gap analysis, stakeholder interviews, use case documentation, and business rules definition",
+          task: "Analyze the specified business process or requirement area, document current-state processes, identify gaps and pain points, and produce a detailed requirements specification with traceability.",
+          context: "The organization is looking to improve or automate a business process and needs clear, unambiguous requirements to guide the technical implementation.",
+          audience: "Product managers, developers, and business stakeholders",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include process flow descriptions, business rules in IF-THEN format, and requirements in SHALL/SHOULD/MAY format with unique IDs for traceability.",
+          constraints: "Requirements must be testable and unambiguous. Clearly separate business rules from implementation details. Include assumptions and dependencies.",
+          reasoning: "Show detailed reasoning"
+        },
+        data_analyst: {
+          category: "business", title: "Data Analyst", description: "Data exploration, dashboards, and business intelligence",
+          role: "Senior Data Analyst",
+          expertise: "SQL, data visualization (Tableau, Power BI), statistical analysis, KPI definition, dashboard design, and data storytelling",
+          task: "Design an analytics approach for the specified business question, including KPI definitions, data source identification, analysis methodology, and dashboard or report layout recommendations.",
+          context: "The business needs data-driven insights to make informed decisions about product direction, customer behavior, or operational efficiency.",
+          audience: "Business stakeholders, product managers, and leadership",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include specific KPI definitions with formulas, suggested visualization types for each metric, and sample dashboard layout descriptions.",
+          constraints: "Focus on actionable metrics over vanity metrics. Ensure all KPIs are measurable with available data sources. Consider data quality and potential biases.",
+          reasoning: "Explain assumptions"
+        },
+        data_scientist_role: {
+          category: "business", title: "Data Scientist", description: "ML models, statistical modeling, and predictive analytics",
+          role: "Senior Data Scientist",
+          expertise: "machine learning, statistical modeling, Python (scikit-learn, TensorFlow, pandas), experiment design, feature engineering, and model evaluation",
+          task: "Propose a data science approach for the specified problem, including problem framing, data requirements, feature engineering strategy, model selection rationale, evaluation metrics, and deployment considerations.",
+          context: "The team wants to leverage machine learning to solve a business problem and needs a structured approach from problem definition to production deployment.",
+          audience: "Engineering team, data engineers, and product managers",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Comprehensive",
+          examples: "Include comparison of candidate model approaches with expected performance characteristics and trade-offs.",
+          constraints: "Consider data availability and quality realistically. Address model interpretability needs. Include monitoring and retraining strategy for production models.",
+          reasoning: "Show detailed reasoning"
+        },
+
+        // ─── Security & Infrastructure ───
+        security_engineer: {
+          category: "security", title: "Security Engineer", description: "Security architecture, threat modeling, and compliance",
+          role: "Senior Security Engineer",
+          expertise: "application security, network security, identity and access management, encryption, compliance frameworks (SOC 2, ISO 27001, GDPR), and security architecture patterns",
+          task: "Conduct a security architecture review for the specified system or feature, including threat modeling, security control recommendations, compliance mapping, and implementation guidance.",
+          context: "The system processes sensitive data and must meet regulatory compliance requirements while maintaining usability and performance.",
+          audience: "Development team, DevOps, and compliance/audit teams",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Use STRIDE or similar framework for threat modeling. Map controls to specific compliance requirements.",
+          constraints: "Balance security controls with usability and performance. Prioritize recommendations by risk severity. Provide practical implementation guidance, not just policy statements.",
+          reasoning: "Show detailed reasoning"
+        },
+        cloud_engineer: {
+          category: "security", title: "Cloud / Infrastructure Engineer", description: "Cloud architecture, IaC, and infrastructure design",
+          role: "Senior Cloud Infrastructure Engineer",
+          expertise: "cloud platforms (AWS, Azure, GCP), infrastructure as code (Terraform, Pulumi), networking, cost optimization, high availability design, and cloud-native services",
+          task: "Design the cloud infrastructure architecture for the specified application or service, including compute, storage, networking, security groups, and cost estimation with high availability considerations.",
+          context: "The infrastructure must support production workloads with defined SLAs while keeping costs optimized and maintaining operational simplicity.",
+          audience: "DevOps team, engineering leads, and finance/operations",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
+          examples: "Include architecture diagrams (described textually), resource specifications, estimated monthly costs, and scaling triggers.",
+          constraints: "Optimize for cost-efficiency without compromising reliability. Follow cloud provider best practices and well-architected framework principles. Consider multi-region requirements if applicable.",
+          reasoning: "Include pros and cons"
+        },
+
+        // ─── Documentation & Communication ───
+        technical_writer: {
+          category: "documentation", title: "Technical Writer", description: "API docs, user guides, and technical documentation",
+          role: "Senior Technical Writer",
+          expertise: "technical documentation, API documentation, user guides, documentation-as-code, information architecture, and style guides (Google, Microsoft)",
+          task: "Create clear, well-structured documentation for the specified feature or API, including overview, getting started guide, detailed reference, examples, and troubleshooting section.",
+          context: "This documentation will be the primary reference for developers and users interacting with the feature and must be maintainable as the product evolves.",
+          audience: "Developers integrating with the API or end-users of the feature",
+          tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Comprehensive",
+          examples: "Include code samples in relevant languages, request/response examples for APIs, and step-by-step tutorials for common use cases.",
+          constraints: "Use clear, simple language. Avoid jargon without definitions. Include version information and update dates. Follow a consistent structure throughout.",
+          reasoning: ""
+        },
+        solutions_architect: {
+          category: "documentation", title: "Solutions Architect", description: "Solution design, integration planning, and technical proposals",
+          role: "Solutions Architect",
+          expertise: "enterprise architecture, integration patterns, system design, vendor evaluation, technical proposal writing, and stakeholder communication",
+          task: "Create a solution design document for the specified initiative, including architecture overview, integration points, technology recommendations, implementation phases, risk assessment, and resource requirements.",
+          context: "This solution must integrate with existing enterprise systems and meet both current requirements and anticipated future needs.",
+          audience: "Technical leadership, project sponsors, and implementation teams",
+          tone: "Authoritative", outputFormat: "Structured Sections with Headings", responseLength: "Comprehensive",
+          examples: "Include architecture decision records (ADRs) for key technology choices, integration sequence diagrams (described textually), and phased implementation timeline.",
+          constraints: "Consider existing technology investments and team capabilities. Provide build vs. buy analysis where applicable. Address non-functional requirements (performance, security, scalability).",
+          reasoning: "Include pros and cons"
+        }
       };
 
       // Form validation function
@@ -1167,35 +1342,117 @@ ${reasoning}`;
         const template = templates[templateName];
         if (!template) return;
 
-        // Set values for all fields
-        for (const [key, value] of Object.entries(template)) {
-          const field = document.getElementById(key);
-          if (field) {
-            field.value = value;
-            // Remove any validation errors
+        const formFields = ["role", "expertise", "task", "context", "audience",
+          "tone", "outputFormat", "responseLength", "examples", "constraints", "reasoning"];
+
+        formFields.forEach(function (key) {
+          var field = document.getElementById(key);
+          if (field && template[key] !== undefined) {
+            field.value = template[key];
             field.classList.remove("is-invalid");
           }
-        }
+        });
 
         // Close the modal
         const modalElement = document.getElementById("templateModal");
         const modal = bootstrap.Modal.getInstance(modalElement);
         if (modal) modal.hide();
 
-        showAlert(
-          `${templateName.replace("_", " ")} template loaded!`,
-          "success"
-        );
+        var displayName = template.title || templateName.replace(/_/g, " ");
+        showAlert(displayName + " template loaded!", "success");
       }
 
-      // Initialize tooltips
+      // Build a short preview string for tooltip
+      function buildTooltipPreview(template) {
+        var lines = [];
+        lines.push("Role: " + template.role);
+        lines.push("Task: " + (template.task.length > 100 ? template.task.substring(0, 100) + "..." : template.task));
+        lines.push("Tone: " + template.tone);
+        lines.push("Format: " + template.outputFormat);
+        return lines.join("\n");
+      }
+
+      // Populate category dropdown
+      function populateCategoryDropdown() {
+        var select = document.getElementById("categorySelect");
+        categories.forEach(function (cat) {
+          var opt = document.createElement("option");
+          opt.value = cat.id;
+          opt.textContent = cat.label;
+          select.appendChild(opt);
+        });
+      }
+
+      // Render template cards for selected category
+      function renderTemplateCards() {
+        var categoryId = document.getElementById("categorySelect").value;
+        var grid = document.getElementById("templateGrid");
+        grid.innerHTML = "";
+
+        // Dispose existing tooltips in grid
+        var oldTips = grid.querySelectorAll('[data-bs-toggle="tooltip"]');
+        oldTips.forEach(function (el) {
+          var tip = bootstrap.Tooltip.getInstance(el);
+          if (tip) tip.dispose();
+        });
+
+        if (!categoryId) {
+          grid.innerHTML = '<p class="text-muted">Select a category above to see available role templates.</p>';
+          return;
+        }
+
+        var catMeta = categories.find(function (c) { return c.id === categoryId; });
+        var badgeClass = catMeta ? "bg-" + catMeta.badge : "bg-secondary";
+
+        Object.keys(templates).forEach(function (key) {
+          var t = templates[key];
+          if (t.category !== categoryId) return;
+
+          var card = document.createElement("div");
+          card.className = "template-card";
+          card.setAttribute("data-bs-toggle", "tooltip");
+          card.setAttribute("data-bs-placement", "top");
+          card.setAttribute("data-bs-html", "true");
+          card.setAttribute("title", buildTooltipPreview(t).replace(/\n/g, "<br>"));
+          card.onclick = function () { loadTemplate(key); };
+
+          var title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = t.title;
+
+          var desc = document.createElement("div");
+          desc.className = "card-desc";
+          desc.textContent = t.description;
+
+          var badge = document.createElement("span");
+          badge.className = "badge " + badgeClass + " mt-1";
+          badge.style.fontSize = "0.7rem";
+          badge.style.width = "fit-content";
+          badge.textContent = catMeta ? catMeta.label : categoryId;
+
+          card.appendChild(title);
+          card.appendChild(desc);
+          card.appendChild(badge);
+          grid.appendChild(card);
+        });
+
+        // Initialize tooltips on new cards
+        var newTips = grid.querySelectorAll('[data-bs-toggle="tooltip"]');
+        newTips.forEach(function (el) {
+          new bootstrap.Tooltip(el);
+        });
+      }
+
+      // Initialize tooltips and category dropdown
       document.addEventListener("DOMContentLoaded", function () {
-        const tooltipTriggerList = [].slice.call(
+        var tooltipTriggerList = [].slice.call(
           document.querySelectorAll('[data-bs-toggle="tooltip"]')
         );
         tooltipTriggerList.map(function (tooltipTriggerEl) {
           return new bootstrap.Tooltip(tooltipTriggerEl);
         });
+
+        populateCategoryDropdown();
 
         // Add event listener for preview menu
         document
@@ -1204,6 +1461,13 @@ ${reasoning}`;
             e.preventDefault();
             previewPrompt();
           });
+
+        // Reset category dropdown when template modal opens
+        var templateModal = document.getElementById("templateModal");
+        templateModal.addEventListener("show.bs.modal", function () {
+          document.getElementById("categorySelect").value = "";
+          renderTemplateCards();
+        });
       });
     </script>
     <textarea name="aatman" id="aatman" style="display: none;">
