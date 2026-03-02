@@ -47,8 +47,10 @@
       /* Selection badges */
       .selection-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding: 0.75rem; border-radius: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
       .selection-bar .sel-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.3rem 0.65rem; border-radius: 0.35rem; font-size: 0.82rem; font-weight: 500; }
-      .selection-bar .change-link { font-size: 0.78rem; cursor: pointer; color: #0d6efd; text-decoration: underline; }
-      .selection-bar .change-link:hover { color: #3d8bfd; }
+      .selection-bar .change-link { font-size: 0.78rem; cursor: pointer; color: #6ea8fe; background: transparent; border: 1px solid #6ea8fe; border-radius: 0.25rem; padding: 0.15rem 0.5rem; text-decoration: none; }
+      .selection-bar .change-link:hover { color: #fff; background: #0d6efd; border-color: #0d6efd; }
+      [data-bs-theme="light"] .selection-bar .change-link { color: #0d6efd; border-color: #0d6efd; }
+      [data-bs-theme="light"] .selection-bar .change-link:hover { color: #fff; background: #0d6efd; }
 
       #categorySelect { max-width: 320px; }
       .bg-purple { background-color: #7952b3 !important; color: #fff; }
@@ -1290,11 +1292,9 @@
         if (htmlEl.getAttribute("data-bs-theme") === "dark") {
           htmlEl.setAttribute("data-bs-theme", "light");
           btn.textContent = "Switch to Dark Mode";
-          btn.classList.replace("btn-outline-light", "btn-outline-dark");
         } else {
           htmlEl.setAttribute("data-bs-theme", "dark");
           btn.textContent = "Switch to Light Mode";
-          btn.classList.replace("btn-outline-dark", "btn-outline-light");
         }
       }
 
