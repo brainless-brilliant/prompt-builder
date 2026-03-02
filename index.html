@@ -58,6 +58,12 @@
       [data-bs-theme="light"] .template-card, [data-bs-theme="light"] .tool-card { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.02); }
       [data-bs-theme="light"] .template-card .card-desc, [data-bs-theme="light"] .tool-card .card-desc { color: #6c757d; }
       [data-bs-theme="light"] .selection-bar { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.08); }
+
+      /* Sticky bottom action bar */
+      .sticky-action-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1040; background: #1a1d21; border-top: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+      [data-bs-theme="light"] .sticky-action-bar { background: #f8f9fa; border-top: 1px solid rgba(0,0,0,0.12); }
+      .sticky-action-bar .btn { font-size: 0.88rem; }
+      #step3 .form-container-pad { padding-bottom: 70px; }
     </style>
   </head>
   <body>
@@ -270,30 +276,34 @@
               </div>
             </div>
 
-            <div class="d-flex justify-content-between">
-              <div>
-                <button type="button" class="btn btn-outline-secondary me-2" onclick="goToStep(2)">
-                  <i class="bi bi-arrow-left"></i> Back
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
-              </div>
-              <div>
-                <button type="button" class="btn btn-info me-2" onclick="previewPrompt()">Preview</button>
-                <button type="button" class="btn btn-primary" onclick="handleGeneratePrompt()">Generate &amp; Copy Prompt</button>
-              </div>
-            </div>
           </form>
 
           <!-- Live Preview Section -->
-          <div id="previewSection" class="preview-section d-none">
+          <div id="previewSection" class="preview-section d-none" style="padding-bottom: 70px;">
             <h4>Prompt Preview</h4>
             <div id="preview-pane" class="border"></div>
-            <div class="d-flex justify-content-end mt-2">
-              <button id="copyPreviewButton" class="btn btn-success" onclick="copyPreviewToClipboard()">Copy to Clipboard</button>
-            </div>
           </div>
+          <div style="height: 70px;"></div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Sticky Bottom Action Bar (Step 3 only) -->
+    <div class="sticky-action-bar d-none" id="stickyBar">
+      <div>
+        <button type="button" class="btn btn-outline-secondary me-2" onclick="goToStep(2)">
+          <i class="bi bi-arrow-left"></i> Back
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-info me-2" onclick="previewPrompt()">
+          <i class="bi bi-eye"></i> Preview
+        </button>
+        <button type="button" class="btn btn-primary" onclick="handleGeneratePrompt()">
+          <i class="bi bi-clipboard"></i> Generate &amp; Copy
+        </button>
       </div>
     </div>
 
@@ -949,6 +959,9 @@
         document.getElementById("step" + step).classList.remove("d-none");
         currentStep = step;
         updateStepIndicator();
+        // Show sticky bar only on Step 3
+        var bar = document.getElementById("stickyBar");
+        if (step === 3) { bar.classList.remove("d-none"); } else { bar.classList.add("d-none"); }
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
