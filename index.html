@@ -82,7 +82,7 @@
               <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a>
             </li>
           </ul>
-          <button class="btn btn-outline-secondary" id="themeToggle" onclick="toggleTheme()">
+          <button class="btn btn-outline-light" id="themeToggle" onclick="toggleTheme()">
             Switch to Light Mode
           </button>
         </div>
@@ -134,9 +134,9 @@
         <div id="step3" class="d-none">
           <div class="selection-bar" id="selectionBar">
             <span class="sel-badge bg-primary text-white" id="selRoleBadge"></span>
-            <span class="change-link" onclick="goToStep(1)">change role</span>
+            <button type="button" class="change-link" onclick="goToStep(1)">change role</button>
             <span class="sel-badge bg-success text-white" id="selToolBadge"></span>
-            <span class="change-link" onclick="goToStep(2)">change tool</span>
+            <button type="button" class="change-link" onclick="goToStep(2)">change tool</button>
           </div>
 
           <form id="prompt-form" class="mb-4">
@@ -421,7 +421,7 @@
             p += "\n</output-requirements>";
             if (data.examples) p += "\n\n<examples>\n" + data.examples + "\n</examples>";
             if (data.constraints) p += "\n\n<constraints>\n" + data.constraints + "\n</constraints>";
-            if (data.reasoning) p += "\n\n<reasoning-approach>\n" + (data.reasoning || "Use available tools to verify claims and gather evidence") + "\n</reasoning-approach>";
+            if (data.reasoning) p += "\n\n<reasoning-approach>\n" + data.reasoning + "\n</reasoning-approach>";
             return p;
           }
         },
@@ -1025,11 +1025,15 @@
 
           var card = document.createElement("div");
           card.className = "template-card" + (selectedTemplateKey === key ? " selected" : "");
+          card.setAttribute("role", "button");
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("aria-label", t.title + " - " + t.description);
           card.setAttribute("data-bs-toggle", "tooltip");
           card.setAttribute("data-bs-placement", "top");
           card.setAttribute("data-bs-html", "true");
           card.setAttribute("title", buildTooltipPreview(t).replace(/\n/g, "<br>"));
           card.onclick = function() { selectRole(key); };
+          card.onkeydown = function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectRole(key); } };
 
           var title = document.createElement("div");
           title.className = "card-title";
@@ -1080,10 +1084,14 @@
           var tool = aiTools[key];
           var card = document.createElement("div");
           card.className = "tool-card" + (selectedToolKey === key ? " selected" : "");
+          card.setAttribute("role", "button");
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("aria-label", tool.label + " - " + tool.description);
           card.setAttribute("data-bs-toggle", "tooltip");
           card.setAttribute("data-bs-placement", "top");
           card.setAttribute("title", tool.instructions);
           card.onclick = function() { selectTool(key); };
+          card.onkeydown = function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectTool(key); } };
 
           var icon = document.createElement("div");
           icon.className = "tool-icon";
@@ -1196,13 +1204,18 @@
       function handleGeneratePrompt() {
         if (validateForm()) {
           var prompt = generatePrompt();
-          navigator.clipboard.writeText(prompt).then(function() {
-            showAlert("Prompt generated and copied to clipboard!", "success");
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(prompt).then(function() {
+              showAlert("Prompt generated and copied to clipboard!", "success");
+              showPreview(prompt);
+            }).catch(function() {
+              showAlert("Failed to copy. Use the preview to copy manually.", "warning");
+              showPreview(prompt);
+            });
+          } else {
+            showAlert("Clipboard not available. Use the preview to copy manually.", "warning");
             showPreview(prompt);
-          }).catch(function() {
-            showAlert("Failed to copy the prompt!", "danger");
-            showPreview(prompt);
-          });
+          }
         } else {
           showAlert("Please fill in all required fields marked with *", "danger");
         }
@@ -1238,7 +1251,7 @@
         if (validateForm()) {
           var prompt = generatePrompt();
           document.getElementById("previewPrompt").textContent = prompt;
-          var previewModal = new bootstrap.Modal(document.getElementById("previewModal"));
+          var previewModal = bootstrap.Modal.getOrCreateInstance(document.getElementById("previewModal"));
           previewModal.show();
         } else {
           showAlert("Please fill in all required fields marked with *", "danger");
@@ -1307,17 +1320,5 @@
         goToStep(1);
       });
     </script>
-    <textarea name="aatman" id="aatman" style="display: none;">
-        Hello Jaipreet,
-            Following recent performance feedback and based on our morning discussion, I would like to formally outline the key responsibilities I will be taking on as part of my role in the current project.
-            Based on expectations shared and aligned during our discussions, I will be focusing on the following areas to ensure seamless delivery and business impact:
-            Strategic Execution Oversight - Driving end-to-end project delivery in alignment with business goals, ensuring timely execution and value realization.
-            Issue Resolution and Team Enablement - Proactively resolving blockers, supporting team members, and facilitating effective decision-making to maintain momentum.
-            Cross-Team Collaboration - Leading coordination across functions to align priorities, eliminate silos, and enhance delivery efficiency.
-            Delivery Governance and Reporting - Implementing structured governance for transparent progress tracking, risk management, and data-driven reporting.
-            Business Outcome Alignment - Ensuring deliverables consistently map to measurable business value and enterprise objectives.
-            While I remain hands-on and ready to support where needed, the emphasis will remain on enabling delivery at scale, addressing cross-team dependencies, and steering execution toward strategic objectives.
-            Please let me know if you'd like to discuss or refine any part of this scope. I remain committed to delivering on these priorities with transparency, accountability, and impact.
-    </textarea>
   </body>
 </html>
