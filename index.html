@@ -4,149 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Advanced AI Prompt Builder</title>
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="https://cdn.oaistatic.com/assets/favicon-dark-32x32-gt5kfzyp.webp"
-    />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
-      rel="stylesheet"
-    />
+    <link rel="icon" type="image/png" sizes="32x32"
+      href="https://cdn.oaistatic.com/assets/favicon-dark-32x32-gt5kfzyp.webp" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
     <style>
-      html, body {
-          height: 100%;
-          margin: 0;
-          overflow: auto;
-      }
-      .main-container {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-      }
-      .form-section {
-          flex: 1;
-          overflow-y: auto;
-          padding: 1rem;
-      }
-      .alert-container {
-          position: fixed;
-          top: 10px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 1050;
-          max-width: 90%;
-      }
-      .modal-dialog-wide {
-          max-width: 70%;
-      }
-      .form-container {
-          max-width: 800px;
-          margin: auto;
-          margin-top: 1rem;
-          margin-bottom: 2rem;
-      }
-      .text-danger {
-          color: #dc3545;
-      }
-      .form-group-card {
-          border: 1px solid rgba(0,0,0,.125);
-          border-radius: 0.25rem;
-          padding: 1rem;
-          margin-bottom: 1.5rem;
-          background-color: rgba(255,255,255,0.05);
-      }
-      .form-group-card h4 {
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
-          padding-bottom: 0.5rem;
-      }
-      .tooltip-inner {
-          max-width: 300px;
-      }
-      .input-description {
-          font-size: 0.875rem;
-          color: #6c757d;
-          margin-bottom: 0.5rem;
-      }
-      #preview-pane {
-          max-height: 500px;
-          overflow-y: auto;
-          font-family: monospace;
-          white-space: pre-wrap;
-          padding: 1rem;
-          border-radius: 0.25rem;
-          background-color: rgba(0,0,0,0.2);
-          margin-top: 1rem;
-      }
-      .live-preview-toggle {
-          margin-bottom: 1rem;
-      }
-      .preview-section {
-          margin-top: 2rem;
-      }
-      .badge-info {
-          color: #0dcaf0;
-          background-color: rgba(13, 202, 240, 0.1);
-          border: 1px solid #0dcaf0;
-      }
-      .hover-highlight:hover {
-          background-color: rgba(255,255,255,0.1);
-      }
-      .template-card {
-          cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.15s;
-          border: 1px solid rgba(255,255,255,0.12);
-          border-radius: 0.5rem;
-          padding: 0.75rem;
-          background: rgba(255,255,255,0.04);
-          min-height: 90px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-      }
-      .template-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-          border-color: #0d6efd;
-      }
-      .template-card .card-title {
-          font-size: 0.95rem;
-          font-weight: 600;
-          margin-bottom: 0.25rem;
-      }
-      .template-card .card-desc {
-          font-size: 0.78rem;
-          color: #9e9e9e;
-          margin-bottom: 0;
-      }
-      .template-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 0.75rem;
-          margin-top: 1rem;
-      }
-      #categorySelect {
-          max-width: 320px;
-      }
-      [data-bs-theme="light"] .template-card {
-          border-color: rgba(0,0,0,0.12);
-          background: rgba(0,0,0,0.02);
-      }
-      [data-bs-theme="light"] .template-card .card-desc {
-          color: #6c757d;
-      }
-      .bg-purple {
-          background-color: #7952b3 !important;
-          color: #fff;
-      }
+      html, body { height: 100%; margin: 0; overflow: auto; }
+      .main-container { display: flex; flex-direction: column; height: 100%; }
+      .alert-container { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1050; max-width: 90%; }
+      .modal-dialog-wide { max-width: 70%; }
+      .form-container { max-width: 800px; margin: auto; margin-top: 1rem; margin-bottom: 2rem; }
+      .text-danger { color: #dc3545; }
+      .form-group-card { border: 1px solid rgba(0,0,0,.125); border-radius: 0.25rem; padding: 1rem; margin-bottom: 1.5rem; background-color: rgba(255,255,255,0.05); }
+      .form-group-card h4 { margin-bottom: 1rem; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+      .tooltip-inner { max-width: 300px; }
+      .input-description { font-size: 0.875rem; color: #6c757d; margin-bottom: 0.5rem; }
+      #preview-pane { max-height: 500px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; padding: 1rem; border-radius: 0.25rem; background-color: rgba(0,0,0,0.2); margin-top: 1rem; }
+      .preview-section { margin-top: 2rem; }
+      .hover-highlight:hover { background-color: rgba(255,255,255,0.1); }
+
+      /* Wizard */
+      .wizard-wrapper { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; }
+      .step-indicator { display: flex; justify-content: center; gap: 0; margin-bottom: 2rem; }
+      .step-indicator .step { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; font-size: 0.9rem; color: #6c757d; position: relative; }
+      .step-indicator .step.active { color: #0d6efd; font-weight: 600; }
+      .step-indicator .step.completed { color: #198754; }
+      .step-indicator .step .step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid #6c757d; background: transparent; }
+      .step-indicator .step.active .step-num { border-color: #0d6efd; background: #0d6efd; color: #fff; }
+      .step-indicator .step.completed .step-num { border-color: #198754; background: #198754; color: #fff; }
+      .step-connector { width: 40px; height: 2px; background: #6c757d; align-self: center; }
+      .step-connector.done { background: #198754; }
+
+      /* Cards */
+      .template-card, .tool-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border: 1px solid rgba(255,255,255,0.12); border-radius: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.04); min-height: 90px; display: flex; flex-direction: column; justify-content: center; }
+      .template-card:hover, .tool-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); border-color: #0d6efd; }
+      .template-card.selected, .tool-card.selected { border-color: #0d6efd; background: rgba(13,110,253,0.12); box-shadow: 0 0 0 2px rgba(13,110,253,0.35); }
+      .template-card .card-title, .tool-card .card-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+      .template-card .card-desc, .tool-card .card-desc { font-size: 0.78rem; color: #9e9e9e; margin-bottom: 0; }
+      .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+      .tool-card .tool-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+
+      /* Selection badges */
+      .selection-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding: 0.75rem; border-radius: 0.5rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+      .selection-bar .sel-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.3rem 0.65rem; border-radius: 0.35rem; font-size: 0.82rem; font-weight: 500; }
+      .selection-bar .change-link { font-size: 0.78rem; cursor: pointer; color: #0d6efd; text-decoration: underline; }
+      .selection-bar .change-link:hover { color: #3d8bfd; }
+
+      #categorySelect { max-width: 320px; }
+      .bg-purple { background-color: #7952b3 !important; color: #fff; }
+
+      [data-bs-theme="light"] .template-card, [data-bs-theme="light"] .tool-card { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.02); }
+      [data-bs-theme="light"] .template-card .card-desc, [data-bs-theme="light"] .tool-card .card-desc { color: #6c757d; }
+      [data-bs-theme="light"] .selection-bar { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.08); }
     </style>
   </head>
   <body>
@@ -154,49 +63,26 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">AB</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
+              <a class="nav-link active" href="#" onclick="restartWizard(); return false;">New Prompt</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="openFreeForm(); return false;">Free Form</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" id="previewMenu">Preview</a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#faqModal"
-                >FAQ</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#templateModal"
-                >Templates</a
-              >
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a>
             </li>
           </ul>
-          <button
-            class="btn btn-outline-secondary"
-            id="themeToggle"
-            onclick="toggleTheme()"
-          >
+          <button class="btn btn-outline-secondary" id="themeToggle" onclick="toggleTheme()">
             Switch to Light Mode
           </button>
         </div>
@@ -204,142 +90,114 @@
     </nav>
 
     <div class="container-fluid main-container">
-      <div class="row">
-        <div class="col-lg-8 col-md-12 form-container">
-          <h2 class="text-center mb-4">Advanced AI Prompt Builder</h2>
-          <p class="text-center mb-4">
-            Design effective prompts that generate high-quality AI responses
-          </p>
+      <div class="wizard-wrapper">
+
+        <!-- Step Indicator -->
+        <div class="step-indicator" id="stepIndicator">
+          <div class="step active" id="stepInd1">
+            <span class="step-num">1</span> Pick Role
+          </div>
+          <div class="step-connector" id="conn1"></div>
+          <div class="step" id="stepInd2">
+            <span class="step-num">2</span> Pick Tool
+          </div>
+          <div class="step-connector" id="conn2"></div>
+          <div class="step" id="stepInd3">
+            <span class="step-num">3</span> Fine-tune
+          </div>
+        </div>
+
+        <!-- ═══ Step 1: Role Selection ═══ -->
+        <div id="step1">
+          <h2 class="text-center mb-2">What role are you working as?</h2>
+          <p class="text-center text-muted mb-4">Choose a category, then select a role to get a tailored prompt template.</p>
+
+          <select id="categorySelect" class="form-select mb-2" onchange="renderRoleCards()">
+            <option value="">-- Select a Category --</option>
+          </select>
+          <div id="roleGrid" class="card-grid"></div>
+        </div>
+
+        <!-- ═══ Step 2: Tool Selection ═══ -->
+        <div id="step2" class="d-none">
+          <h2 class="text-center mb-2">Which AI tool will you use?</h2>
+          <p class="text-center text-muted mb-4">The generated prompt will be optimized for your chosen tool's format.</p>
+          <div id="toolGrid" class="card-grid"></div>
+          <div class="mt-3">
+            <button class="btn btn-outline-secondary" onclick="goToStep(1)">
+              <i class="bi bi-arrow-left"></i> Back
+            </button>
+          </div>
+        </div>
+
+        <!-- ═══ Step 3: Form ═══ -->
+        <div id="step3" class="d-none">
+          <div class="selection-bar" id="selectionBar">
+            <span class="sel-badge bg-primary text-white" id="selRoleBadge"></span>
+            <span class="change-link" onclick="goToStep(1)">change role</span>
+            <span class="sel-badge bg-success text-white" id="selToolBadge"></span>
+            <span class="change-link" onclick="goToStep(2)">change tool</span>
+          </div>
 
           <form id="prompt-form" class="mb-4">
-            <!-- Core Information Section -->
+            <!-- Core Information -->
             <div class="form-group-card">
               <h4><i class="bi bi-person-badge"></i> Core Information</h4>
-              <p class="input-description">
-                Define who the AI should act as and what you need it to do
-              </p>
-
+              <p class="input-description">Define who the AI should act as and what you need it to do</p>
               <div class="mb-3">
-                <label for="role" class="form-label"
-                  >Act as <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Specify the role or persona you want the AI to take. More specific roles often yield better results. Example: 'Senior Software Engineer specializing in Python' instead of just 'Developer'."
-                  ></i>
+                <label for="role" class="form-label">Act as <span class="text-danger">*</span>
+                  <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip"
+                    title="Specify the role or persona you want the AI to take."></i>
                 </label>
-                <input
-                  type="text"
-                  id="role"
-                  class="form-control"
-                  placeholder="e.g., UX Researcher, Data Scientist, Marketing Strategist"
-                  required
-                />
+                <input type="text" id="role" class="form-control"
+                  placeholder="e.g., UX Researcher, Data Scientist, Marketing Strategist" required />
               </div>
-
               <div class="mb-3">
-                <label for="expertise" class="form-label"
-                  >Expertise <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="List specific domains, skills, or knowledge areas relevant to the task. Be specific about specialties and experience level."
-                  ></i>
+                <label for="expertise" class="form-label">Expertise <span class="text-danger">*</span>
+                  <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip"
+                    title="List specific domains, skills, or knowledge areas relevant to the task."></i>
                 </label>
-                <textarea
-                  id="expertise"
-                  class="form-control"
-                  rows="2"
-                  placeholder="e.g., Python, machine learning algorithms, data visualization, predictive modeling"
-                  required
-                ></textarea>
+                <textarea id="expertise" class="form-control" rows="2"
+                  placeholder="e.g., Python, machine learning algorithms, data visualization" required></textarea>
               </div>
-
               <div class="mb-3">
-                <label for="task" class="form-label"
-                  >Task Instructions <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Be specific about what you want the AI to do. Include details about deliverables, steps to follow, and any specific requirements."
-                  ></i>
+                <label for="task" class="form-label">Task Instructions <span class="text-danger">*</span>
+                  <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip"
+                    title="Be specific about what you want the AI to do."></i>
                 </label>
-                <textarea
-                  id="task"
-                  rows="4"
-                  class="form-control"
-                  placeholder="Clearly describe what you need the AI to do, including any specific steps, methodology, or outcomes you're looking for..."
-                  required
-                ></textarea>
+                <textarea id="task" rows="4" class="form-control"
+                  placeholder="Clearly describe what you need the AI to do..." required></textarea>
               </div>
             </div>
 
-            <!-- Context and Background Section -->
+            <!-- Context and Background -->
             <div class="form-group-card">
               <h4><i class="bi bi-info-circle"></i> Context and Background</h4>
-              <p class="input-description">
-                Provide information that helps the AI understand the broader
-                situation
-              </p>
-
+              <p class="input-description">Provide information that helps the AI understand the broader situation</p>
               <div class="mb-3">
-                <label for="context" class="form-label"
-                  >Background Context
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Provide any background information that would help the AI understand the context of your request. This might include project history, existing work, or other relevant details."
-                  ></i>
+                <label for="context" class="form-label">Background Context
+                  <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip"
+                    title="Provide any background information helpful for understanding the task context."></i>
                 </label>
-                <textarea
-                  id="context"
-                  rows="3"
-                  class="form-control"
-                  placeholder="Explain any background information that would be helpful for understanding the task context..."
-                ></textarea>
+                <textarea id="context" rows="3" class="form-control"
+                  placeholder="Explain any background information..."></textarea>
               </div>
-
               <div class="mb-3">
-                <label for="audience" class="form-label"
-                  >Target Audience <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Define who will read or use the AI's response. Include details about their knowledge level, familiarity with the subject, and what they care about."
-                  ></i>
+                <label for="audience" class="form-label">Target Audience <span class="text-danger">*</span>
+                  <i class="bi bi-question-circle" tabindex="-1" data-bs-toggle="tooltip"
+                    title="Define who will read or use the AI's response."></i>
                 </label>
-                <input
-                  type="text"
-                  id="audience"
-                  class="form-control"
-                  placeholder="e.g., Junior developers, C-level executives, general public with no technical background"
-                  required
-                />
+                <input type="text" id="audience" class="form-control"
+                  placeholder="e.g., Junior developers, C-level executives" required />
               </div>
             </div>
 
-            <!-- Style and Format Section -->
+            <!-- Style and Format -->
             <div class="form-group-card">
               <h4><i class="bi bi-brush"></i> Style and Format</h4>
-              <p class="input-description">
-                Specify how the response should be written and structured
-              </p>
-
+              <p class="input-description">Specify how the response should be written and structured</p>
               <div class="mb-3">
-                <label for="tone" class="form-label"
-                  >Tone <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Choose a tone that suits your needs and audience expectations. The tone affects word choice, sentence structure, and overall impression."
-                  ></i>
-                </label>
+                <label for="tone" class="form-label">Tone <span class="text-danger">*</span></label>
                 <select id="tone" class="form-select" required>
                   <option value="" disabled>Select tone</option>
                   <option value="Formal">Formal</option>
@@ -356,24 +214,13 @@
                   <option value="Authoritative">Authoritative</option>
                 </select>
               </div>
-
               <div class="mb-3">
-                <label for="outputFormat" class="form-label"
-                  >Output Format <span class="text-danger">*</span>
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Select how the response should be structured. Different formats work better for different types of information."
-                  ></i>
-                </label>
+                <label for="outputFormat" class="form-label">Output Format <span class="text-danger">*</span></label>
                 <select id="outputFormat" class="form-select" required>
                   <option value="" disabled>Select format</option>
                   <option value="Plain Text" selected>Plain Text</option>
                   <option value="Step-by-step Guide">Step-by-step Guide</option>
-                  <option value="Structured Sections with Headings">
-                    Structured Sections with Headings
-                  </option>
+                  <option value="Structured Sections with Headings">Structured Sections with Headings</option>
                   <option value="JSON">JSON</option>
                   <option value="Table">Table</option>
                   <option value="Bullet Points">Bullet Points</option>
@@ -382,331 +229,117 @@
                   <option value="Markdown">Markdown</option>
                 </select>
               </div>
-
               <div class="mb-3">
-                <label for="responseLength" class="form-label"
-                  >Response Length
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Specify how detailed or concise you want the response to be. This helps the AI calibrate the level of detail."
-                  ></i>
-                </label>
+                <label for="responseLength" class="form-label">Response Length</label>
                 <select id="responseLength" class="form-select">
-                  <option value="" selected disabled>
-                    Select preferred length
-                  </option>
-                  <option value="Very Concise">
-                    Very Concise (1-2 paragraphs)
-                  </option>
+                  <option value="" disabled>Select preferred length</option>
+                  <option value="Very Concise">Very Concise (1-2 paragraphs)</option>
                   <option value="Concise">Concise (2-3 paragraphs)</option>
-                  <option value="Moderate" selected>
-                    Moderate (4-6 paragraphs)
-                  </option>
+                  <option value="Moderate" selected>Moderate (4-6 paragraphs)</option>
                   <option value="Detailed">Detailed (7-10 paragraphs)</option>
-                  <option value="Comprehensive">
-                    Comprehensive (10+ paragraphs)
-                  </option>
+                  <option value="Comprehensive">Comprehensive (10+ paragraphs)</option>
                 </select>
               </div>
             </div>
 
-            <!-- Advanced Options Section -->
+            <!-- Advanced Options -->
             <div class="form-group-card">
               <h4><i class="bi bi-gear"></i> Advanced Options</h4>
-              <p class="input-description">
-                Fine-tune the AI's approach with additional guidelines
-              </p>
-
+              <p class="input-description">Fine-tune the AI's approach with additional guidelines</p>
               <div class="mb-3">
-                <label for="examples" class="form-label"
-                  >Examples
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Provide examples that demonstrate the type of response you're looking for. Examples are one of the most effective ways to guide AI behavior."
-                  ></i>
-                </label>
-                <textarea
-                  id="examples"
-                  rows="3"
-                  class="form-control"
-                  placeholder="Provide examples of the type of response you're looking for..."
-                ></textarea>
+                <label for="examples" class="form-label">Examples</label>
+                <textarea id="examples" rows="3" class="form-control"
+                  placeholder="Provide examples of the type of response you're looking for..."></textarea>
               </div>
-
               <div class="mb-3">
-                <label for="constraints" class="form-label"
-                  >Constraints and Boundaries
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Specify what the AI should avoid or not include in its response. This helps prevent unwanted content or approaches."
-                  ></i>
-                </label>
-                <textarea
-                  id="constraints"
-                  rows="2"
-                  class="form-control"
-                  placeholder="Specify anything the AI should avoid or exclude..."
-                ></textarea>
+                <label for="constraints" class="form-label">Constraints and Boundaries</label>
+                <textarea id="constraints" rows="2" class="form-control"
+                  placeholder="Specify anything the AI should avoid or exclude..."></textarea>
               </div>
-
               <div class="mb-3">
-                <label for="reasoning" class="form-label"
-                  >Reasoning Requirements
-                  <i
-                    class="bi bi-question-circle"
-                    tabindex="-1"
-                    data-bs-toggle="tooltip"
-                    title="Indicate if you want the AI to show its work or explain its thinking process in the response."
-                  ></i>
-                </label>
+                <label for="reasoning" class="form-label">Reasoning Requirements</label>
                 <select id="reasoning" class="form-select">
                   <option value="" selected>No specific requirements</option>
-                  <option value="Show detailed reasoning">
-                    Show detailed reasoning
-                  </option>
-                  <option value="Explain assumptions">
-                    Explain assumptions
-                  </option>
-                  <option value="Cite sources where possible">
-                    Cite sources where possible
-                  </option>
-                  <option value="Include pros and cons">
-                    Include pros and cons
-                  </option>
+                  <option value="Show detailed reasoning">Show detailed reasoning</option>
+                  <option value="Explain assumptions">Explain assumptions</option>
+                  <option value="Cite sources where possible">Cite sources where possible</option>
+                  <option value="Include pros and cons">Include pros and cons</option>
                 </select>
               </div>
             </div>
 
             <div class="d-flex justify-content-between">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="resetForm()"
-              >
-                Reset Form
-              </button>
               <div>
-                <button
-                  type="button"
-                  class="btn btn-info me-2"
-                  onclick="previewPrompt()"
-                >
-                  Preview
+                <button type="button" class="btn btn-outline-secondary me-2" onclick="goToStep(2)">
+                  <i class="bi bi-arrow-left"></i> Back
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  onclick="handleGeneratePrompt()"
-                >
-                  Generate & Copy Prompt
-                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
+              </div>
+              <div>
+                <button type="button" class="btn btn-info me-2" onclick="previewPrompt()">Preview</button>
+                <button type="button" class="btn btn-primary" onclick="handleGeneratePrompt()">Generate &amp; Copy Prompt</button>
               </div>
             </div>
           </form>
 
-          <!-- Live Preview Section (initially hidden) -->
+          <!-- Live Preview Section -->
           <div id="previewSection" class="preview-section d-none">
             <h4>Prompt Preview</h4>
             <div id="preview-pane" class="border"></div>
             <div class="d-flex justify-content-end mt-2">
-              <button
-                id="copyPreviewButton"
-                class="btn btn-success"
-                onclick="copyPreviewToClipboard()"
-              >
-                Copy to Clipboard
-              </button>
+              <button id="copyPreviewButton" class="btn btn-success" onclick="copyPreviewToClipboard()">Copy to Clipboard</button>
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <!-- FAQ Modal -->
-    <div
-      class="modal fade"
-      id="faqModal"
-      tabindex="-1"
-      aria-labelledby="faqModalLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide"
-      >
+    <div class="modal fade" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="faqModalLabel">
-              Prompt Engineering FAQ
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <h5 class="modal-title" id="faqModalLabel">Prompt Engineering FAQ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <h5>General Questions</h5>
-
             <h6 class="mt-4">What makes a good AI prompt?</h6>
-            <p>
-              A good AI prompt is clear, specific, and provides enough context
-              for the AI to understand exactly what you need. It defines the
-              role the AI should take, what task you need completed, and how the
-              output should be formatted. Effective prompts often include
-              examples and specify constraints.
-            </p>
-
+            <p>A good AI prompt is clear, specific, and provides enough context for the AI to understand exactly what you need. It defines the role the AI should take, what task you need completed, and how the output should be formatted.</p>
             <h6 class="mt-4">Why is defining a role important?</h6>
-            <p>
-              Defining a role gives the AI a specific perspective to adopt,
-              which influences its tone, vocabulary, and approach. For example,
-              a "Senior Software Engineer" would respond differently than a
-              "High School Teacher" even to the same query. More specific roles
-              (e.g., "Python Developer with 10 years of experience in financial
-              services") typically yield more tailored responses.
-            </p>
-
+            <p>Defining a role gives the AI a specific perspective to adopt, which influences its tone, vocabulary, and approach. More specific roles typically yield more tailored responses.</p>
             <h6 class="mt-4">How specific should my task instructions be?</h6>
-            <p>
-              Very specific. Vague instructions lead to vague outputs. For
-              example, rather than asking for "information about climate
-              change," specify "a 5-point summary of the latest IPCC findings on
-              climate change mitigation strategies, focusing on technology
-              solutions." The more details you provide about what you want, the
-              better the AI can meet your expectations.
-            </p>
-
-            <h6 class="mt-4">How do I use the "Examples" field effectively?</h6>
-            <p>
-              Examples are powerful ways to guide AI behavior. You can include
-              samples of the type of output you want, showing specific formats,
-              tones, or approaches. For instance, if you want a certain writing
-              style, provide a paragraph written in that style. One or two
-              high-quality examples are usually more effective than many
-              low-quality ones.
-            </p>
-
-            <h6 class="mt-4">
-              What should I include in "Constraints and Boundaries"?
-            </h6>
-            <p>
-              This field helps you specify what you don't want in the response.
-              For example, "Do not include technical jargon," "Avoid discussing
-              political implications," or "Do not use bullet points." This helps
-              prevent the AI from including unwanted content or approaches.
-            </p>
-
+            <p>Very specific. Vague instructions lead to vague outputs. The more details you provide about what you want, the better the AI can meet your expectations.</p>
+            <h6 class="mt-4">How does tool selection affect the prompt?</h6>
+            <p>Different AI tools have different conventions. Claude Code prefers directive-style prompts, Codex CLI wants terse code-focused instructions, and ChatGPT works best with conversational framing. This builder automatically optimizes the prompt structure for your chosen tool.</p>
             <h5 class="mt-4">Tips for Better Prompts</h5>
-
             <ol>
-              <li>
-                <strong>Be specific about format</strong>: If you want a table,
-                specify the columns. If you want a list, mention how many items.
-              </li>
-              <li>
-                <strong>Define your audience clearly</strong>: "Senior
-                executives with financial background" gives much better guidance
-                than just "business people."
-              </li>
-              <li>
-                <strong>Use the reasoning field</strong>: When appropriate,
-                asking the AI to show its work or explain its thinking can lead
-                to more transparent, thoughtful responses.
-              </li>
-              <li>
-                <strong>Start with more constraints than fewer</strong>: You can
-                always tell the AI to be more creative later, but starting with
-                boundaries helps get focused responses.
-              </li>
-              <li>
-                <strong>Iterative refinement works best</strong>: Don't expect
-                perfect results on the first try. Use the initial output to
-                refine your prompt further.
-              </li>
+              <li><strong>Be specific about format</strong>: If you want a table, specify the columns.</li>
+              <li><strong>Define your audience clearly</strong>: "Senior executives with financial background" is better than "business people."</li>
+              <li><strong>Use the reasoning field</strong>: Asking the AI to show its work leads to more thoughtful responses.</li>
+              <li><strong>Start with more constraints than fewer</strong>: You can always loosen constraints later.</li>
+              <li><strong>Iterative refinement works best</strong>: Use initial output to refine your prompt further.</li>
             </ol>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Templates Modal -->
-    <div
-      class="modal fade"
-      id="templateModal"
-      tabindex="-1"
-      aria-labelledby="templateModalLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-wide"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="templateModalLabel">
-              Prompt Templates
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>Select a category, then pick a role template to fill the form:</p>
-            <select id="categorySelect" class="form-select mb-2" onchange="renderTemplateCards()">
-              <option value="">-- Select a Category --</option>
-            </select>
-            <div id="templateGrid" class="template-grid"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Preview Modal -->
-    <div
-      class="modal fade"
-      id="previewModal"
-      tabindex="-1"
-      aria-labelledby="previewModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-wide">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="previewModalLabel">Prompt Preview</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="alert alert-info">
-              <i class="bi bi-lightbulb"></i> This is how your prompt will look
-              when sent to the AI. You can edit any field in the form to update
-              this preview.
+              <i class="bi bi-lightbulb"></i> This is how your prompt will look when sent to the AI. The format is optimized for your selected tool.
             </div>
-            <pre
-              id="previewPrompt"
-              class="bg-dark text-light p-3 rounded"
-              style="white-space: pre-wrap;"
-            ></pre>
-            <button
-              id="copyModalPreviewButton"
-              class="btn btn-success mt-3"
-              onclick="copyModalPreviewToClipboard()"
-            >
-              Copy to Clipboard
-            </button>
+            <pre id="previewPrompt" class="bg-dark text-light p-3 rounded" style="white-space: pre-wrap;"></pre>
+            <button id="copyModalPreviewButton" class="btn btn-success mt-3" onclick="copyModalPreviewToClipboard()">Copy to Clipboard</button>
           </div>
         </div>
       </div>
@@ -714,24 +347,220 @@
 
     <div class="alert-container"></div>
 
-    <!-- Bootstrap JS and Popper.js -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // ── Category definitions ──
-      const categories = [
-        { id: "general",        label: "General",                      badge: "secondary" },
-        { id: "engineering",    label: "Engineering",                  badge: "primary" },
-        { id: "design",        label: "Design & UX",                  badge: "purple" },
-        { id: "product",       label: "Product & Strategy",           badge: "success" },
-        { id: "quality",       label: "Quality & Testing",            badge: "warning" },
-        { id: "business",      label: "Business & Analytics",         badge: "info" },
-        { id: "security",      label: "Security & Infrastructure",    badge: "danger" },
+      // ══════════════════════════════════════
+      //  Wizard State
+      // ══════════════════════════════════════
+      var currentStep = 1;
+      var selectedTemplateKey = null;
+      var selectedToolKey = null;
+
+      // ══════════════════════════════════════
+      //  Category Definitions
+      // ══════════════════════════════════════
+      var categories = [
+        { id: "general",        label: "General",                       badge: "secondary" },
+        { id: "engineering",    label: "Engineering",                   badge: "primary" },
+        { id: "design",        label: "Design & UX",                   badge: "purple" },
+        { id: "product",       label: "Product & Strategy",            badge: "success" },
+        { id: "quality",       label: "Quality & Testing",             badge: "warning" },
+        { id: "business",      label: "Business & Analytics",          badge: "info" },
+        { id: "security",      label: "Security & Infrastructure",     badge: "danger" },
         { id: "documentation", label: "Documentation & Communication", badge: "dark" }
       ];
 
-      // ── Template definitions ──
-      const templates = {
-        // ─── General (existing) ───
+      // ══════════════════════════════════════
+      //  AI Tool Definitions
+      // ══════════════════════════════════════
+      var aiTools = {
+        claude_chat: {
+          id: "claude_chat", label: "Claude Chat", icon: "bi-chat-dots",
+          description: "Anthropic's conversational AI assistant",
+          instructions: "Format your response using clear markdown with headings. Be thorough and well-structured. Use bullet points and numbered lists for clarity.",
+          formatPrompt: function(data) {
+            var p = "# Role and Expertise\nAct as " + data.role + " with expertise in " + data.expertise + ".\n\n# Task\n" + data.task;
+            if (data.context) p += "\n\n# Context\n" + data.context;
+            p += "\n\n# Audience and Style\n- Target audience: " + data.audience + "\n- Tone: " + data.tone.toLowerCase() + "\n- Format: " + data.outputFormat;
+            if (data.responseLength) p += "\n- Length: " + data.responseLength;
+            if (data.examples) p += "\n\n# Examples\n" + data.examples;
+            if (data.constraints) p += "\n\n# Constraints\n" + data.constraints;
+            if (data.reasoning) p += "\n\n# Reasoning\n" + data.reasoning;
+            p += "\n\n# Guidelines\n- Respond as " + data.role + "\n- Stay focused on the specific task\n- Provide information valuable to " + data.audience + "\n- Structure your response using markdown headings and lists";
+            return p;
+          }
+        },
+        claude_code: {
+          id: "claude_code", label: "Claude Code", icon: "bi-terminal",
+          description: "Anthropic's CLI coding agent with file access",
+          instructions: "You are operating in a development environment. Provide concrete, actionable output. Reference file paths where relevant. Use code blocks with language tags. Prefer concise, imperative directives.",
+          formatPrompt: function(data) {
+            var p = "<role>\n" + data.role + " with expertise in " + data.expertise + "\n</role>\n\n<task>\n" + data.task + "\n</task>";
+            if (data.context) p += "\n\n<context>\n" + data.context + "\n</context>";
+            p += "\n\n<requirements>\n- Audience: " + data.audience + "\n- Tone: " + data.tone.toLowerCase() + "\n- Output format: " + data.outputFormat;
+            if (data.responseLength) p += "\n- Detail level: " + data.responseLength;
+            p += "\n</requirements>";
+            if (data.examples) p += "\n\n<examples>\n" + data.examples + "\n</examples>";
+            if (data.constraints) p += "\n\n<constraints>\n" + data.constraints + "\n</constraints>";
+            if (data.reasoning) p += "\n\n<reasoning>\n" + data.reasoning + "\n</reasoning>";
+            p += "\n\n<guidelines>\n- Be direct and actionable\n- Use code blocks with language identifiers\n- Reference specific file paths when applicable\n- Prefer concrete implementations over abstract explanations\n</guidelines>";
+            return p;
+          }
+        },
+        claude_cowork: {
+          id: "claude_cowork", label: "Claude Cowork", icon: "bi-people",
+          description: "Claude with MCP server and tool integrations",
+          instructions: "You have access to tools and external resources via MCP servers. Use structured multi-step task framing. Reference available tools and resources where relevant.",
+          formatPrompt: function(data) {
+            var p = "<role>\n" + data.role + " with expertise in " + data.expertise + "\n</role>\n\n<task>\n" + data.task + "\n</task>";
+            if (data.context) p += "\n\n<context>\n" + data.context + "\n</context>";
+            p += "\n\n<execution-plan>\nBreak this task into clear steps. For each step:\n1. Identify what information or resources are needed\n2. Use available tools to gather data or perform actions\n3. Synthesize results before proceeding to the next step\n</execution-plan>";
+            p += "\n\n<output-requirements>\n- Audience: " + data.audience + "\n- Tone: " + data.tone.toLowerCase() + "\n- Format: " + data.outputFormat;
+            if (data.responseLength) p += "\n- Detail level: " + data.responseLength;
+            p += "\n</output-requirements>";
+            if (data.examples) p += "\n\n<examples>\n" + data.examples + "\n</examples>";
+            if (data.constraints) p += "\n\n<constraints>\n" + data.constraints + "\n</constraints>";
+            if (data.reasoning) p += "\n\n<reasoning-approach>\n" + (data.reasoning || "Use available tools to verify claims and gather evidence") + "\n</reasoning-approach>";
+            return p;
+          }
+        },
+        codex_cli: {
+          id: "codex_cli", label: "OpenAI Codex CLI", icon: "bi-code-slash",
+          description: "OpenAI's command-line coding agent",
+          instructions: "Output code and commands directly. Minimize prose. Focus on working implementations.",
+          formatPrompt: function(data) {
+            var p = "Role: " + data.role + "\nExpertise: " + data.expertise + "\n\nTask: " + data.task;
+            if (data.context) p += "\n\nContext: " + data.context;
+            p += "\n\nOutput: " + data.outputFormat;
+            if (data.responseLength) p += " (" + data.responseLength + ")";
+            p += "\nAudience: " + data.audience + "\nTone: " + data.tone;
+            if (data.examples) p += "\n\nExamples:\n" + data.examples;
+            if (data.constraints) p += "\n\nConstraints:\n" + data.constraints;
+            if (data.reasoning) p += "\nReasoning: " + data.reasoning;
+            p += "\n\nInstructions: Be direct. Output working code and concrete solutions. Minimize explanations unless asked. Use comments in code instead of prose.";
+            return p;
+          }
+        },
+        chatgpt: {
+          id: "chatgpt", label: "ChatGPT", icon: "bi-chat-left-text",
+          description: "OpenAI's conversational assistant",
+          instructions: "Use a conversational, helpful tone. Provide step-by-step explanations when appropriate. Be thorough but accessible.",
+          formatPrompt: function(data) {
+            var p = "I'd like you to act as " + data.role + " with deep expertise in " + data.expertise + ".\n\n";
+            p += "Here's what I need:\n" + data.task + "\n";
+            if (data.context) p += "\nSome background context:\n" + data.context + "\n";
+            p += "\nPlease keep in mind:\n";
+            p += "- My audience is: " + data.audience + "\n";
+            p += "- Use a " + data.tone.toLowerCase() + " tone\n";
+            p += "- Format the response as: " + data.outputFormat + "\n";
+            if (data.responseLength) p += "- Aim for a " + data.responseLength.toLowerCase() + " response\n";
+            if (data.examples) p += "\nHere are some examples of what I'm looking for:\n" + data.examples + "\n";
+            if (data.constraints) p += "\nPlease avoid:\n" + data.constraints + "\n";
+            if (data.reasoning) p += "\nAdditionally: " + data.reasoning + "\n";
+            p += "\nTake your time to think through this carefully and provide a well-structured response.";
+            return p;
+          }
+        },
+        copilot_chat: {
+          id: "copilot_chat", label: "GitHub Copilot Chat", icon: "bi-github",
+          description: "GitHub's AI coding assistant in IDE",
+          instructions: "Keep responses scoped to the current codebase context. Use @workspace references. Provide inline code suggestions.",
+          formatPrompt: function(data) {
+            var p = "Acting as " + data.role + " (" + data.expertise + "):\n\n";
+            p += data.task + "\n";
+            if (data.context) p += "\nContext: " + data.context + "\n";
+            p += "\nRequirements:\n- Format: " + data.outputFormat + "\n- Audience: " + data.audience + "\n- Tone: " + data.tone;
+            if (data.responseLength) p += "\n- Length: " + data.responseLength;
+            if (data.constraints) p += "\n\nAvoid: " + data.constraints;
+            if (data.examples) p += "\n\nExample:\n" + data.examples;
+            if (data.reasoning) p += "\n\n" + data.reasoning;
+            p += "\n\nKeep the response focused and concise. Reference specific files and code paths from the workspace where relevant.";
+            return p;
+          }
+        },
+        cursor_ai: {
+          id: "cursor_ai", label: "Cursor AI", icon: "bi-cursor",
+          description: "AI-powered IDE with codebase awareness",
+          instructions: "Reference open files and codebase structure. Focus on edits and implementations. Use .cursorrules conventions.",
+          formatPrompt: function(data) {
+            var p = "Role: " + data.role + "\nExpertise: " + data.expertise + "\n\n";
+            p += "## Task\n" + data.task + "\n";
+            if (data.context) p += "\n## Context\n" + data.context + "\n";
+            p += "\n## Output Requirements\n- Format: " + data.outputFormat + "\n- Audience: " + data.audience + "\n- Tone: " + data.tone;
+            if (data.responseLength) p += "\n- Detail: " + data.responseLength;
+            if (data.examples) p += "\n\n## Examples\n" + data.examples;
+            if (data.constraints) p += "\n\n## Constraints\n" + data.constraints;
+            if (data.reasoning) p += "\n\n## Reasoning\n" + data.reasoning;
+            p += "\n\n## Guidelines\n- Reference files in the current project when making suggestions\n- Provide edit-ready code snippets\n- Show before/after for code changes\n- Follow existing codebase patterns and conventions";
+            return p;
+          }
+        },
+        gemini: {
+          id: "gemini", label: "Google Gemini", icon: "bi-stars",
+          description: "Google's multi-modal AI assistant",
+          instructions: "Provide comprehensive, well-organized responses. Use clear section structure. Support multi-modal references where applicable.",
+          formatPrompt: function(data) {
+            var p = "## Role\nYou are " + data.role + " with expertise in " + data.expertise + ".\n\n";
+            p += "## Objective\n" + data.task + "\n";
+            if (data.context) p += "\n## Background\n" + data.context + "\n";
+            p += "\n## Target Audience\n" + data.audience + "\n";
+            p += "\n## Response Parameters\n| Parameter | Value |\n|-----------|-------|\n";
+            p += "| Tone | " + data.tone + " |\n";
+            p += "| Format | " + data.outputFormat + " |\n";
+            if (data.responseLength) p += "| Length | " + data.responseLength + " |\n";
+            if (data.examples) p += "\n## Reference Examples\n" + data.examples + "\n";
+            if (data.constraints) p += "\n## Boundaries\n" + data.constraints + "\n";
+            if (data.reasoning) p += "\n## Analysis Approach\n" + data.reasoning + "\n";
+            p += "\n## Instructions\n- Organize your response with clear headings and sub-sections\n- Use tables and lists where they improve clarity\n- Provide comprehensive coverage of the topic\n- Include concrete examples and actionable recommendations";
+            return p;
+          }
+        },
+        windsurf: {
+          id: "windsurf", label: "Windsurf", icon: "bi-wind",
+          description: "Agentic AI IDE with cascade flows",
+          instructions: "Use step-chained autonomous task framing. Think through each step before acting. Verify results between steps.",
+          formatPrompt: function(data) {
+            var p = "## Agent Configuration\n- Role: " + data.role + "\n- Expertise: " + data.expertise + "\n\n";
+            p += "## Objective\n" + data.task + "\n";
+            if (data.context) p += "\n## Context\n" + data.context + "\n";
+            p += "\n## Execution Flow\nApproach this task step by step:\n";
+            p += "1. Analyze the requirements and identify the scope\n";
+            p += "2. Plan the implementation approach\n";
+            p += "3. Execute each component systematically\n";
+            p += "4. Verify the output meets all requirements\n";
+            p += "\n## Output Specification\n- Audience: " + data.audience + "\n- Tone: " + data.tone + "\n- Format: " + data.outputFormat;
+            if (data.responseLength) p += "\n- Detail level: " + data.responseLength;
+            if (data.examples) p += "\n\n## Reference Examples\n" + data.examples;
+            if (data.constraints) p += "\n\n## Constraints\n" + data.constraints;
+            if (data.reasoning) p += "\n\n## Reasoning Approach\n" + data.reasoning;
+            p += "\n\n## Agent Guidelines\n- Think step-by-step before acting\n- Verify each step's output before proceeding\n- If blocked, explain the blocker and propose alternatives\n- Provide complete, working solutions";
+            return p;
+          }
+        },
+        generic: {
+          id: "generic", label: "Generic / Other", icon: "bi-box",
+          description: "Universal format that works with any AI tool",
+          instructions: "Provide a clear, well-structured response.",
+          formatPrompt: function(data) {
+            var p = "# Role and Expertise\nAct as " + data.role + " with expertise in " + data.expertise + ".\n\n# Task\n" + data.task;
+            if (data.context) p += "\n\n# Context\n" + data.context;
+            p += "\n\n# Audience and Style\n- Target audience: " + data.audience + "\n- Tone: " + data.tone.toLowerCase() + "\n- Format: " + data.outputFormat;
+            if (data.responseLength) p += "\n- Length: " + data.responseLength;
+            if (data.examples) p += "\n\n# Examples\n" + data.examples;
+            if (data.constraints) p += "\n\n# Constraints\n" + data.constraints;
+            if (data.reasoning) p += "\n\n# Reasoning\n" + data.reasoning;
+            p += "\n\n# Guidelines\n- Respond as " + data.role + "\n- Stay focused on the specific task described above\n- Provide information that would be most valuable to " + data.audience + "\n- Structure your response according to the specified format";
+            return p;
+          }
+        }
+      };
+
+      // ══════════════════════════════════════
+      //  Template Definitions
+      // ══════════════════════════════════════
+      var templates = {
+        // --- General ---
         code_review: {
           category: "general", title: "Code Review", description: "Review code for bugs and improvements",
           role: "Senior Software Engineer",
@@ -800,8 +629,8 @@
           context: "This communication is part of regular project governance and transparency efforts to keep all parties informed and aligned.",
           audience: "Cross-functional stakeholders including executives, department heads, and team leads",
           tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
-          examples: "Subject line should be clear and informative. Opening should acknowledge recipients and state purpose. Body should be organized with clear headings. Closing should include specific calls to action and offer availability for questions.",
-          constraints: "Avoid technical jargon without explanation. Be direct about challenges but maintain a solution-oriented approach. Keep overall tone respectful while being honest about project status.",
+          examples: "Subject line should be clear and informative. Opening should acknowledge recipients and state purpose. Body should be organized with clear headings. Closing should include specific calls to action.",
+          constraints: "Avoid technical jargon without explanation. Be direct about challenges but maintain a solution-oriented approach.",
           reasoning: ""
         },
         issue_escalation: {
@@ -824,8 +653,8 @@
           context: "This communication aims to establish effective cross-team partnership while respecting each group's priorities and constraints.",
           audience: "Peer managers and their team members from other departments",
           tone: "Professional", outputFormat: "Plain Text", responseLength: "Concise",
-          examples: "Start with a cordial greeting that acknowledges the recipient's role. Clearly state the purpose upfront. Explain: 1) What assistance is needed 2) Why their specific expertise is valuable 3) Timeline and estimated effort 4) Benefits to both teams/projects 5) Proposed next steps.",
-          constraints: "Be considerate of the other team's existing workload and priorities. Offer flexibility where possible. Maintain a collegial tone that assumes positive intent and mutual benefit.",
+          examples: "Start with a cordial greeting. Clearly state the purpose upfront. Explain: 1) What assistance is needed 2) Why their expertise is valuable 3) Timeline and effort 4) Benefits to both teams 5) Proposed next steps.",
+          constraints: "Be considerate of the other team's existing workload. Offer flexibility where possible. Maintain a collegial tone that assumes positive intent.",
           reasoning: ""
         },
         executive_briefing: {
@@ -837,11 +666,11 @@
           audience: "C-level executives and senior leadership team",
           tone: "Formal", outputFormat: "Structured Sections with Headings", responseLength: "Concise",
           examples: "",
-          constraints: "Focus on business impact and strategic implications rather than technical details. Lead with the most important information. Use data-driven insights where available. Limit to 3-5 key points that require executive attention or decision.",
+          constraints: "Focus on business impact and strategic implications rather than technical details. Lead with the most important information. Limit to 3-5 key points.",
           reasoning: ""
         },
 
-        // ─── Engineering ───
+        // --- Engineering ---
         backend_developer: {
           category: "engineering", title: "Backend Developer", description: "Server-side architecture, APIs, and database design",
           role: "Senior Backend Developer",
@@ -903,7 +732,7 @@
           reasoning: "Show detailed reasoning"
         },
 
-        // ─── Design & UX ───
+        // --- Design & UX ---
         ux_designer: {
           category: "design", title: "UX Designer", description: "User experience flows, wireframes, and interaction design",
           role: "Senior UX Designer",
@@ -941,7 +770,7 @@
           reasoning: ""
         },
 
-        // ─── Product & Strategy ───
+        // --- Product & Strategy ---
         product_manager: {
           category: "product", title: "Product Manager", description: "Feature specs, roadmap planning, and prioritization",
           role: "Senior Product Manager",
@@ -950,7 +779,7 @@
           context: "This feature is being considered for the next quarter's roadmap and needs a clear business case and technical feasibility assessment.",
           audience: "Engineering leads, designers, and executive stakeholders",
           tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
-          examples: "User stories should follow the format: As a [user type], I want to [action] so that [benefit]. Each story should have measurable acceptance criteria.",
+          examples: "User stories should follow: As a [user type], I want to [action] so that [benefit]. Each story should have measurable acceptance criteria.",
           constraints: "Focus on the problem and desired outcomes, not specific implementation. Include measurable success metrics. Consider edge cases and negative scenarios.",
           reasoning: "Include pros and cons"
         },
@@ -975,11 +804,11 @@
           audience: "Development team, product owners, and engineering managers",
           tone: "Conversational", outputFormat: "Structured Sections with Headings", responseLength: "Moderate",
           examples: "Provide specific retrospective formats, meeting agenda templates, or workflow visualization techniques that address the identified challenges.",
-          constraints: "Focus on practical, actionable improvements rather than theoretical frameworks. Consider team culture and change readiness. Suggest incremental changes over wholesale process overhauls.",
+          constraints: "Focus on practical, actionable improvements rather than theoretical frameworks. Consider team culture and change readiness. Suggest incremental changes.",
           reasoning: "Explain assumptions"
         },
 
-        // ─── Quality & Testing ───
+        // --- Quality & Testing ---
         qa_engineer: {
           category: "quality", title: "QA Engineer", description: "Test strategy, test cases, and quality assurance planning",
           role: "Senior QA Engineer",
@@ -1013,11 +842,11 @@
           audience: "Development team, security team, and compliance officers",
           tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
           examples: "Include test cases for OWASP Top 10 categories relevant to the feature: injection, broken authentication, sensitive data exposure, etc.",
-          constraints: "Focus on the most likely attack vectors for the specific feature. Provide clear severity ratings and remediation priorities. Include both automated and manual testing approaches.",
+          constraints: "Focus on the most likely attack vectors for the specific feature. Provide clear severity ratings and remediation priorities.",
           reasoning: "Show detailed reasoning"
         },
 
-        // ─── Business & Analytics ───
+        // --- Business & Analytics ---
         business_analyst: {
           category: "business", title: "Business Analyst", description: "Requirements gathering, process mapping, and gap analysis",
           role: "Senior Business Analyst",
@@ -1055,7 +884,7 @@
           reasoning: "Show detailed reasoning"
         },
 
-        // ─── Security & Infrastructure ───
+        // --- Security & Infrastructure ---
         security_engineer: {
           category: "security", title: "Security Engineer", description: "Security architecture, threat modeling, and compliance",
           role: "Senior Security Engineer",
@@ -1065,7 +894,7 @@
           audience: "Development team, DevOps, and compliance/audit teams",
           tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
           examples: "Use STRIDE or similar framework for threat modeling. Map controls to specific compliance requirements.",
-          constraints: "Balance security controls with usability and performance. Prioritize recommendations by risk severity. Provide practical implementation guidance, not just policy statements.",
+          constraints: "Balance security controls with usability and performance. Prioritize recommendations by risk severity. Provide practical implementation guidance.",
           reasoning: "Show detailed reasoning"
         },
         cloud_engineer: {
@@ -1077,11 +906,11 @@
           audience: "DevOps team, engineering leads, and finance/operations",
           tone: "Professional", outputFormat: "Structured Sections with Headings", responseLength: "Detailed",
           examples: "Include architecture diagrams (described textually), resource specifications, estimated monthly costs, and scaling triggers.",
-          constraints: "Optimize for cost-efficiency without compromising reliability. Follow cloud provider best practices and well-architected framework principles. Consider multi-region requirements if applicable.",
+          constraints: "Optimize for cost-efficiency without compromising reliability. Follow cloud provider best practices and well-architected framework principles.",
           reasoning: "Include pros and cons"
         },
 
-        // ─── Documentation & Communication ───
+        // --- Documentation & Communication ---
         technical_writer: {
           category: "documentation", title: "Technical Writer", description: "API docs, user guides, and technical documentation",
           role: "Senior Technical Writer",
@@ -1103,266 +932,65 @@
           audience: "Technical leadership, project sponsors, and implementation teams",
           tone: "Authoritative", outputFormat: "Structured Sections with Headings", responseLength: "Comprehensive",
           examples: "Include architecture decision records (ADRs) for key technology choices, integration sequence diagrams (described textually), and phased implementation timeline.",
-          constraints: "Consider existing technology investments and team capabilities. Provide build vs. buy analysis where applicable. Address non-functional requirements (performance, security, scalability).",
+          constraints: "Consider existing technology investments and team capabilities. Provide build vs. buy analysis where applicable. Address non-functional requirements.",
           reasoning: "Include pros and cons"
         }
       };
 
-      // Form validation function
-      function validateForm() {
-        const requiredFields = [
-          "role",
-          "expertise",
-          "task",
-          "audience",
-          "tone",
-          "outputFormat",
-        ];
-        let isValid = true;
-
-        requiredFields.forEach((fieldId) => {
-          const field = document.getElementById(fieldId);
-          if (!field.value.trim()) {
-            field.classList.add("is-invalid");
-            isValid = false;
-          } else {
-            field.classList.remove("is-invalid");
-          }
-        });
-
-        return isValid;
+      // ══════════════════════════════════════
+      //  Wizard Navigation
+      // ══════════════════════════════════════
+      function goToStep(step) {
+        document.getElementById("step1").classList.add("d-none");
+        document.getElementById("step2").classList.add("d-none");
+        document.getElementById("step3").classList.add("d-none");
+        document.getElementById("step" + step).classList.remove("d-none");
+        currentStep = step;
+        updateStepIndicator();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Generate prompt from form fields
-      function generatePrompt() {
-        const role = document.getElementById("role").value.trim();
-        const expertise = document.getElementById("expertise").value.trim();
-        const task = document.getElementById("task").value.trim();
-        const audience = document.getElementById("audience").value.trim();
-        const tone = document.getElementById("tone").value;
-        const outputFormat = document.getElementById("outputFormat").value;
-        const context = document.getElementById("context").value.trim();
-        const examples = document.getElementById("examples").value.trim();
-        const constraints = document.getElementById("constraints").value.trim();
-        const reasoning = document.getElementById("reasoning").value;
-        const responseLength = document.getElementById("responseLength").value;
-
-        // Constructing the prompt with sections using template literals
-        let prompt = `# Role and Expertise
-Act as ${role} with expertise in ${expertise}.
-
-# Task
-${task}`;
-
-        // Add context if provided
-        if (context) {
-          prompt += `
-
-# Context
-${context}`;
+      function updateStepIndicator() {
+        for (var i = 1; i <= 3; i++) {
+          var el = document.getElementById("stepInd" + i);
+          el.classList.remove("active", "completed");
+          if (i < currentStep) el.classList.add("completed");
+          if (i === currentStep) el.classList.add("active");
         }
-
-        // Add audience and style information
-        prompt += `
-
-# Audience and Style
-- Target audience: ${audience}
-- Tone: ${tone.toLowerCase()}
-- Format: ${outputFormat}`;
-
-        // Add response length if specified
-        if (responseLength && responseLength !== "") {
-          prompt += `
-- Length: ${responseLength}`;
-        }
-
-        // Add examples if provided
-        if (examples) {
-          prompt += `
-
-# Examples
-${examples}`;
-        }
-
-        // Add constraints if provided
-        if (constraints) {
-          prompt += `
-
-# Constraints and Boundaries
-${constraints}`;
-        }
-
-        // Add reasoning requirements if specified
-        if (reasoning && reasoning !== "") {
-          prompt += `
-
-# Reasoning
-${reasoning}`;
-        }
-
-        // Add standard guidelines
-        prompt += `
-
-# Guidelines
-- Respond as ${role}
-- Stay focused on the specific task described above
-- Provide information that would be most valuable to ${audience}
-- Structure your response according to the specified format`;
-
-        return prompt;
+        document.getElementById("conn1").classList.toggle("done", currentStep > 1);
+        document.getElementById("conn2").classList.toggle("done", currentStep > 2);
       }
 
-      function handleGeneratePrompt() {
-        if (validateForm()) {
-          const prompt = generatePrompt();
-          navigator.clipboard
-            .writeText(prompt)
-            .then(() => {
-              showAlert("Prompt generated and copied to clipboard!", "success");
-              showPreview(prompt);
-            })
-            .catch(() => {
-              showAlert("Failed to copy the prompt!", "danger");
-              showPreview(prompt);
-            });
-        } else {
-          showAlert(
-            "Please fill in all required fields marked with *",
-            "danger"
-          );
-        }
+      function restartWizard() {
+        selectedTemplateKey = null;
+        selectedToolKey = null;
+        resetForm();
+        document.getElementById("categorySelect").value = "";
+        renderRoleCards();
+        goToStep(1);
       }
 
-      // Show alert message
-      function showAlert(message, type) {
-        const alertContainer = document.querySelector(".alert-container");
-        const alertDiv = document.createElement("div");
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-        alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-        alertContainer.appendChild(alertDiv);
-
-        // Auto dismiss after 3 seconds
-        setTimeout(() => {
-          alertDiv.classList.remove("show");
-          setTimeout(() => alertDiv.remove(), 300);
-        }, 3000);
+      function openFreeForm() {
+        selectedTemplateKey = null;
+        selectedToolKey = "generic";
+        resetForm();
+        updateSelectionBar();
+        goToStep(3);
       }
 
-      // Show preview in preview pane
-      function showPreview(prompt) {
-        const previewPane = document.getElementById("preview-pane");
-        previewPane.textContent = prompt;
-        document.getElementById("previewSection").classList.remove("d-none");
-        document.getElementById("previewPrompt").textContent = prompt;
-      }
-
-      // Function to preview prompt
-      function previewPrompt() {
-        if (validateForm()) {
-          const prompt = generatePrompt();
-          document.getElementById("previewPrompt").textContent = prompt;
-          const previewModal = new bootstrap.Modal(
-            document.getElementById("previewModal")
-          );
-          previewModal.show();
-        } else {
-          showAlert(
-            "Please fill in all required fields marked with *",
-            "danger"
-          );
-        }
-      }
-
-      // Copy preview to clipboard
-      function copyPreviewToClipboard() {
-        const previewPane = document.getElementById("preview-pane");
-        navigator.clipboard
-          .writeText(previewPane.textContent)
-          .then(() => {
-            showAlert("Copied to clipboard!", "success");
-          })
-          .catch(() => {
-            showAlert("Failed to copy to clipboard!", "danger");
-          });
-      }
-
-      // Copy modal preview to clipboard
-      function copyModalPreviewToClipboard() {
-        const previewPrompt = document.getElementById("previewPrompt");
-        navigator.clipboard
-          .writeText(previewPrompt.textContent)
-          .then(() => {
-            showAlert("Copied to clipboard!", "success");
-          })
-          .catch(() => {
-            showAlert("Failed to copy to clipboard!", "danger");
-          });
-      }
-
-      // Reset the form
-      function resetForm() {
-        document.getElementById("prompt-form").reset();
-        document.getElementById("previewSection").classList.add("d-none");
-        // Remove validation styling
-        const formElements = document.querySelectorAll(
-          ".form-control, .form-select"
-        );
-        formElements.forEach((element) => {
-          element.classList.remove("is-invalid");
+      // ══════════════════════════════════════
+      //  Step 1: Role Selection
+      // ══════════════════════════════════════
+      function populateCategoryDropdown() {
+        var select = document.getElementById("categorySelect");
+        categories.forEach(function(cat) {
+          var opt = document.createElement("option");
+          opt.value = cat.id;
+          opt.textContent = cat.label;
+          select.appendChild(opt);
         });
       }
 
-      // Toggle theme function
-      function toggleTheme() {
-        const htmlElement = document.documentElement;
-        const themeToggleButton = document.getElementById("themeToggle");
-
-        if (htmlElement.getAttribute("data-bs-theme") === "dark") {
-          htmlElement.setAttribute("data-bs-theme", "light");
-          themeToggleButton.textContent = "Switch to Dark Mode";
-          themeToggleButton.classList.replace(
-            "btn-outline-light",
-            "btn-outline-dark"
-          );
-        } else {
-          htmlElement.setAttribute("data-bs-theme", "dark");
-          themeToggleButton.textContent = "Switch to Light Mode";
-          themeToggleButton.classList.replace(
-            "btn-outline-dark",
-            "btn-outline-light"
-          );
-        }
-      }
-
-      // Load template function
-      function loadTemplate(templateName) {
-        const template = templates[templateName];
-        if (!template) return;
-
-        const formFields = ["role", "expertise", "task", "context", "audience",
-          "tone", "outputFormat", "responseLength", "examples", "constraints", "reasoning"];
-
-        formFields.forEach(function (key) {
-          var field = document.getElementById(key);
-          if (field && template[key] !== undefined) {
-            field.value = template[key];
-            field.classList.remove("is-invalid");
-          }
-        });
-
-        // Close the modal
-        const modalElement = document.getElementById("templateModal");
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) modal.hide();
-
-        var displayName = template.title || templateName.replace(/_/g, " ");
-        showAlert(displayName + " template loaded!", "success");
-      }
-
-      // Build a short preview string for tooltip
       function buildTooltipPreview(template) {
         var lines = [];
         lines.push("Role: " + template.role);
@@ -1372,49 +1000,36 @@ ${reasoning}`;
         return lines.join("\n");
       }
 
-      // Populate category dropdown
-      function populateCategoryDropdown() {
-        var select = document.getElementById("categorySelect");
-        categories.forEach(function (cat) {
-          var opt = document.createElement("option");
-          opt.value = cat.id;
-          opt.textContent = cat.label;
-          select.appendChild(opt);
-        });
-      }
-
-      // Render template cards for selected category
-      function renderTemplateCards() {
+      function renderRoleCards() {
         var categoryId = document.getElementById("categorySelect").value;
-        var grid = document.getElementById("templateGrid");
-        grid.innerHTML = "";
+        var grid = document.getElementById("roleGrid");
 
-        // Dispose existing tooltips in grid
-        var oldTips = grid.querySelectorAll('[data-bs-toggle="tooltip"]');
-        oldTips.forEach(function (el) {
+        // Dispose old tooltips
+        grid.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
           var tip = bootstrap.Tooltip.getInstance(el);
           if (tip) tip.dispose();
         });
+        grid.innerHTML = "";
 
         if (!categoryId) {
           grid.innerHTML = '<p class="text-muted">Select a category above to see available role templates.</p>';
           return;
         }
 
-        var catMeta = categories.find(function (c) { return c.id === categoryId; });
+        var catMeta = categories.find(function(c) { return c.id === categoryId; });
         var badgeClass = catMeta ? "bg-" + catMeta.badge : "bg-secondary";
 
-        Object.keys(templates).forEach(function (key) {
+        Object.keys(templates).forEach(function(key) {
           var t = templates[key];
           if (t.category !== categoryId) return;
 
           var card = document.createElement("div");
-          card.className = "template-card";
+          card.className = "template-card" + (selectedTemplateKey === key ? " selected" : "");
           card.setAttribute("data-bs-toggle", "tooltip");
           card.setAttribute("data-bs-placement", "top");
           card.setAttribute("data-bs-html", "true");
           card.setAttribute("title", buildTooltipPreview(t).replace(/\n/g, "<br>"));
-          card.onclick = function () { loadTemplate(key); };
+          card.onclick = function() { selectRole(key); };
 
           var title = document.createElement("div");
           title.className = "card-title";
@@ -1428,7 +1043,7 @@ ${reasoning}`;
           badge.className = "badge " + badgeClass + " mt-1";
           badge.style.fontSize = "0.7rem";
           badge.style.width = "fit-content";
-          badge.textContent = catMeta ? catMeta.label : categoryId;
+          badge.textContent = catMeta.label;
 
           card.appendChild(title);
           card.appendChild(desc);
@@ -1436,51 +1051,273 @@ ${reasoning}`;
           grid.appendChild(card);
         });
 
-        // Initialize tooltips on new cards
-        var newTips = grid.querySelectorAll('[data-bs-toggle="tooltip"]');
-        newTips.forEach(function (el) {
+        // Init tooltips
+        grid.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
           new bootstrap.Tooltip(el);
         });
       }
 
-      // Initialize tooltips and category dropdown
-      document.addEventListener("DOMContentLoaded", function () {
-        var tooltipTriggerList = [].slice.call(
-          document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        );
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl);
+      function selectRole(templateKey) {
+        selectedTemplateKey = templateKey;
+        loadTemplateToForm(templateKey);
+        goToStep(2);
+      }
+
+      // ══════════════════════════════════════
+      //  Step 2: Tool Selection
+      // ══════════════════════════════════════
+      function renderToolCards() {
+        var grid = document.getElementById("toolGrid");
+
+        // Dispose old tooltips
+        grid.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+          var tip = bootstrap.Tooltip.getInstance(el);
+          if (tip) tip.dispose();
+        });
+        grid.innerHTML = "";
+
+        Object.keys(aiTools).forEach(function(key) {
+          var tool = aiTools[key];
+          var card = document.createElement("div");
+          card.className = "tool-card" + (selectedToolKey === key ? " selected" : "");
+          card.setAttribute("data-bs-toggle", "tooltip");
+          card.setAttribute("data-bs-placement", "top");
+          card.setAttribute("title", tool.instructions);
+          card.onclick = function() { selectTool(key); };
+
+          var icon = document.createElement("div");
+          icon.className = "tool-icon";
+          icon.innerHTML = '<i class="bi ' + tool.icon + '"></i>';
+
+          var title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = tool.label;
+
+          var desc = document.createElement("div");
+          desc.className = "card-desc";
+          desc.textContent = tool.description;
+
+          card.appendChild(icon);
+          card.appendChild(title);
+          card.appendChild(desc);
+          grid.appendChild(card);
+        });
+
+        // Init tooltips
+        grid.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+          new bootstrap.Tooltip(el);
+        });
+      }
+
+      function selectTool(toolKey) {
+        selectedToolKey = toolKey;
+        updateSelectionBar();
+        goToStep(3);
+      }
+
+      // ══════════════════════════════════════
+      //  Step 3: Form & Generation
+      // ══════════════════════════════════════
+      function updateSelectionBar() {
+        var roleBadge = document.getElementById("selRoleBadge");
+        var toolBadge = document.getElementById("selToolBadge");
+
+        if (selectedTemplateKey && templates[selectedTemplateKey]) {
+          roleBadge.textContent = templates[selectedTemplateKey].title;
+          roleBadge.style.display = "";
+        } else {
+          roleBadge.textContent = "Free Form";
+          roleBadge.style.display = "";
+        }
+
+        if (selectedToolKey && aiTools[selectedToolKey]) {
+          toolBadge.textContent = aiTools[selectedToolKey].label;
+          toolBadge.style.display = "";
+        } else {
+          toolBadge.textContent = "No tool selected";
+        }
+      }
+
+      function loadTemplateToForm(templateKey) {
+        var template = templates[templateKey];
+        if (!template) return;
+        var formFields = ["role", "expertise", "task", "context", "audience",
+          "tone", "outputFormat", "responseLength", "examples", "constraints", "reasoning"];
+        formFields.forEach(function(key) {
+          var field = document.getElementById(key);
+          if (field && template[key] !== undefined) {
+            field.value = template[key];
+            field.classList.remove("is-invalid");
+          }
+        });
+      }
+
+      function validateForm() {
+        var requiredFields = ["role", "expertise", "task", "audience", "tone", "outputFormat"];
+        var isValid = true;
+        requiredFields.forEach(function(fieldId) {
+          var field = document.getElementById(fieldId);
+          if (!field.value.trim()) {
+            field.classList.add("is-invalid");
+            isValid = false;
+          } else {
+            field.classList.remove("is-invalid");
+          }
+        });
+        return isValid;
+      }
+
+      function getFormData() {
+        return {
+          role: document.getElementById("role").value.trim(),
+          expertise: document.getElementById("expertise").value.trim(),
+          task: document.getElementById("task").value.trim(),
+          audience: document.getElementById("audience").value.trim(),
+          tone: document.getElementById("tone").value,
+          outputFormat: document.getElementById("outputFormat").value,
+          context: document.getElementById("context").value.trim(),
+          examples: document.getElementById("examples").value.trim(),
+          constraints: document.getElementById("constraints").value.trim(),
+          reasoning: document.getElementById("reasoning").value,
+          responseLength: document.getElementById("responseLength").value
+        };
+      }
+
+      function generatePrompt() {
+        var data = getFormData();
+        var toolKey = selectedToolKey || "generic";
+        var tool = aiTools[toolKey];
+        if (tool && tool.formatPrompt) {
+          return tool.formatPrompt(data);
+        }
+        return aiTools.generic.formatPrompt(data);
+      }
+
+      function handleGeneratePrompt() {
+        if (validateForm()) {
+          var prompt = generatePrompt();
+          navigator.clipboard.writeText(prompt).then(function() {
+            showAlert("Prompt generated and copied to clipboard!", "success");
+            showPreview(prompt);
+          }).catch(function() {
+            showAlert("Failed to copy the prompt!", "danger");
+            showPreview(prompt);
+          });
+        } else {
+          showAlert("Please fill in all required fields marked with *", "danger");
+        }
+      }
+
+      // ══════════════════════════════════════
+      //  Utility Functions
+      // ══════════════════════════════════════
+      function showAlert(message, type) {
+        var alertContainer = document.querySelector(".alert-container");
+        var alertDiv = document.createElement("div");
+        alertDiv.className = "alert alert-" + type + " alert-dismissible fade show";
+        alertDiv.innerHTML = message + ' <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        alertContainer.appendChild(alertDiv);
+        setTimeout(function() {
+          alertDiv.classList.remove("show");
+          setTimeout(function() { alertDiv.remove(); }, 300);
+        }, 3000);
+      }
+
+      function showPreview(prompt) {
+        var previewPane = document.getElementById("preview-pane");
+        previewPane.textContent = prompt;
+        document.getElementById("previewSection").classList.remove("d-none");
+        document.getElementById("previewPrompt").textContent = prompt;
+      }
+
+      function previewPrompt() {
+        if (currentStep !== 3) {
+          showAlert("Please complete the wizard steps first", "warning");
+          return;
+        }
+        if (validateForm()) {
+          var prompt = generatePrompt();
+          document.getElementById("previewPrompt").textContent = prompt;
+          var previewModal = new bootstrap.Modal(document.getElementById("previewModal"));
+          previewModal.show();
+        } else {
+          showAlert("Please fill in all required fields marked with *", "danger");
+        }
+      }
+
+      function copyPreviewToClipboard() {
+        var previewPane = document.getElementById("preview-pane");
+        navigator.clipboard.writeText(previewPane.textContent).then(function() {
+          showAlert("Copied to clipboard!", "success");
+        }).catch(function() {
+          showAlert("Failed to copy to clipboard!", "danger");
+        });
+      }
+
+      function copyModalPreviewToClipboard() {
+        var previewPrompt = document.getElementById("previewPrompt");
+        navigator.clipboard.writeText(previewPrompt.textContent).then(function() {
+          showAlert("Copied to clipboard!", "success");
+        }).catch(function() {
+          showAlert("Failed to copy to clipboard!", "danger");
+        });
+      }
+
+      function resetForm() {
+        document.getElementById("prompt-form").reset();
+        document.getElementById("previewSection").classList.add("d-none");
+        document.querySelectorAll(".form-control, .form-select").forEach(function(el) {
+          el.classList.remove("is-invalid");
+        });
+      }
+
+      function toggleTheme() {
+        var htmlEl = document.documentElement;
+        var btn = document.getElementById("themeToggle");
+        if (htmlEl.getAttribute("data-bs-theme") === "dark") {
+          htmlEl.setAttribute("data-bs-theme", "light");
+          btn.textContent = "Switch to Dark Mode";
+          btn.classList.replace("btn-outline-light", "btn-outline-dark");
+        } else {
+          htmlEl.setAttribute("data-bs-theme", "dark");
+          btn.textContent = "Switch to Light Mode";
+          btn.classList.replace("btn-outline-dark", "btn-outline-light");
+        }
+      }
+
+      // ══════════════════════════════════════
+      //  Initialization
+      // ══════════════════════════════════════
+      document.addEventListener("DOMContentLoaded", function() {
+        // Init tooltips
+        [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function(el) {
+          return new bootstrap.Tooltip(el);
         });
 
         populateCategoryDropdown();
+        renderToolCards();
 
-        // Add event listener for preview menu
-        document
-          .getElementById("previewMenu")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
-            previewPrompt();
-          });
-
-        // Reset category dropdown when template modal opens
-        var templateModal = document.getElementById("templateModal");
-        templateModal.addEventListener("show.bs.modal", function () {
-          document.getElementById("categorySelect").value = "";
-          renderTemplateCards();
+        // Preview menu
+        document.getElementById("previewMenu").addEventListener("click", function(e) {
+          e.preventDefault();
+          previewPrompt();
         });
+
+        // Start at step 1
+        goToStep(1);
       });
     </script>
     <textarea name="aatman" id="aatman" style="display: none;">
         Hello Jaipreet,
             Following recent performance feedback and based on our morning discussion, I would like to formally outline the key responsibilities I will be taking on as part of my role in the current project.
             Based on expectations shared and aligned during our discussions, I will be focusing on the following areas to ensure seamless delivery and business impact:
-            Strategic Execution Oversight – Driving end-to-end project delivery in alignment with business goals, ensuring timely execution and value realization.
-            Issue Resolution and Team Enablement – Proactively resolving blockers, supporting team members, and facilitating effective decision-making to maintain momentum.
-            Cross-Team Collaboration – Leading coordination across functions to align priorities, eliminate silos, and enhance delivery efficiency.
-            Delivery Governance and Reporting – Implementing structured governance for transparent progress tracking, risk management, and data-driven reporting.
-            Business Outcome Alignment – Ensuring deliverables consistently map to measurable business value and enterprise objectives.
+            Strategic Execution Oversight - Driving end-to-end project delivery in alignment with business goals, ensuring timely execution and value realization.
+            Issue Resolution and Team Enablement - Proactively resolving blockers, supporting team members, and facilitating effective decision-making to maintain momentum.
+            Cross-Team Collaboration - Leading coordination across functions to align priorities, eliminate silos, and enhance delivery efficiency.
+            Delivery Governance and Reporting - Implementing structured governance for transparent progress tracking, risk management, and data-driven reporting.
+            Business Outcome Alignment - Ensuring deliverables consistently map to measurable business value and enterprise objectives.
             While I remain hands-on and ready to support where needed, the emphasis will remain on enabling delivery at scale, addressing cross-team dependencies, and steering execution toward strategic objectives.
-            Please let me know if you’d like to discuss or refine any part of this scope. I remain committed to delivering on these priorities with transparency, accountability, and impact.
+            Please let me know if you'd like to discuss or refine any part of this scope. I remain committed to delivering on these priorities with transparency, accountability, and impact.
     </textarea>
   </body>
 </html>
